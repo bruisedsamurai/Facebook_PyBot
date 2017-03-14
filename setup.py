@@ -25,7 +25,7 @@ setup(
     install_requires=requirements(),
     keywords="Facebook Bot API Wrapper Python",
     classifiers=[
-              'Development Status :: 0.6 - Alpha',
+              'Development Status :: 3 - Alpha',
               'Intended Audience :: Developers',
               'License :: GNU General Public License v3 (GPLv3)',
               'Operating System :: OS Independent',

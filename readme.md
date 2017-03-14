@@ -44,13 +44,16 @@ Now, add anothers lines to the script
 
 Tip:
 >For the non initiated you can use a heroku service for hosting your bots. Which provides to host the app and also comes with a free plan.
+
 >Guide for setting up hosting is given here https://devcenter.heroku.com/articles/getting-started-with-python#introduction
+
 >Note: Since, we are using cherrpy instead of gunicorn. You only to type the line below in your procfile
 
 	web: python yourscript.py
 
 
 Now, you can go ahead and create a Facebook page and App
+
 Facebook provides a guide for that:	https://developers.facebook.com/docs/messenger-platform/guides/setup
 
 
