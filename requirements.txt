@@ -1,0 +1,16 @@
+cheroot==5.3.0
+CherryPy==10.2.0
+click==6.7
+enum-compat==0.0.2
+Flask==0.12
+itsdangerous==0.24
+Jinja2==2.9.5
+MarkupSafe==0.23
+Paste==2.0.3
+portend==1.8
+pytz==2016.10
+requests==2.13.0
+six==1.10.0
+tempora==1.6.1
+ujson==1.35
+Werkzeug==0.11.15
