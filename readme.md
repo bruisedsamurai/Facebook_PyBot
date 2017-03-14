@@ -12,7 +12,7 @@ This is an Unofficial Facebook bot API in python. Facebook Bots can be build usi
 Using pip:
 
 
-	pip install python_facebook_bot_api
+	pip install Facebook_PyBot
 
 Or install from the source with:
 
