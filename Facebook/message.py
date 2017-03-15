@@ -1,4 +1,7 @@
-import ujson
+try:
+    import ujson as json
+except:
+    import json
 
 
 def Updates(callback):
@@ -10,7 +13,7 @@ def Updates(callback):
     """
     entries = []
     try:
-        callback = ujson.decode(callback)
+        callback = json.decode(callback)
     except:
         pass
     for entry in callback["entry"]:

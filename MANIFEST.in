@@ -1,0 +1,4 @@
+include readme.md
+include LICENSE.txt
+include requirements.txt
+include setup.cfg

@@ -13,16 +13,17 @@ def requirements():
 
 setup(
     name='Facebook_PyBot',
-    version='0.6a',
+    version='0.6a12',
     author='hundredeir',
     author_email='hundredeir@protonmail.com',
     packages=['Facebook'],
-    scripts=['examples/echo'],
+    scripts=['examples/echo.py'],
     url='https://github.com/hundredeir/Facebook_PyBot',
     license='GPL3',
     description='This is an Unofficial Facebook bot API in python. Facebook Bots can be build using this library.',
     long_description=open('readme.md').read(),
     install_requires=requirements(),
+    extras_require={'UltraJSON':["ujson"]},
     keywords="Facebook Bot API Wrapper Python",
     classifiers=[
               'Development Status :: 3 - Alpha',

@@ -12,5 +12,4 @@ pytz==2016.10
 requests==2.13.0
 six==1.10.0
 tempora==1.6.1
-ujson==1.35
 Werkzeug==0.11.15

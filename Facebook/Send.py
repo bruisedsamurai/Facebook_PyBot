@@ -1,5 +1,9 @@
 import os
-import ujson
+
+try:
+    import ujson as json
+except:
+    import json
 
 import requests
 
@@ -33,7 +37,7 @@ class send:
         payload['recipient'] = {"id": User_id}
         payload['message'] = {"text": message}
         payload["notification_type"] = notification_type
-        response = requests.post(URL, headers=headers, params=params, data=ujson.dumps(payload))
+        response = requests.post(URL, headers=headers, params=params, data=json.dumps(payload))
         result = response.json()
         print(result)
         if 'recipient_id' not in result:
@@ -72,7 +76,7 @@ class send:
         payload["notification_type"] = notification_type
         params = {"access_token": self.Access_Token}
         URL = self.URL.format("me/messages")
-        response = requests.post(URL, headers=headers, params=params, data=ujson.dumps(payload))
+        response = requests.post(URL, headers=headers, params=params, data=json.dumps(payload))
         result = response.json()
         if "recipient_id" not in result:
             error = raiseError(result)
@@ -99,7 +103,7 @@ class send:
         }
         URL = self.URL.format("me/messages")
         param = {"access_token": self.Access_Token}
-        response = requests.post(URL, headers=headers, params=param, data=ujson.dumps(payload))
+        response = requests.post(URL, headers=headers, params=param, data=json.dumps(payload))
         data = response.json()
         return data
 
@@ -117,7 +121,7 @@ class send:
         response = requests.get(URL, params=key)
         data = response.json()
         try:
-            data = ujson.decode(data)
+            data = json.decode(data)
         except:
             pass
         if data.get["first_name"]:
@@ -135,9 +139,9 @@ class send:
         :return:
         """
         try:
-            Button_1 = ujson.loads(Button_1)
-            Button_2 = ujson.loads(Button_2)
-            Button_3 = ujson.loads(Button_3)
+            Button_1 = json.loads(Button_1)
+            Button_2 = json.loads(Button_2)
+            Button_3 = json.loads(Button_3)
         except:
             pass
         buttons = [Button_1]
@@ -162,7 +166,7 @@ class send:
         }
         URL = self.URL.format("me/messages")
         params = {"access_token": self.Access_Token}
-        response = requests.post(URL, headers=headers, params=params, data=ujson.dumps(payload))
+        response = requests.post(URL, headers=headers, params=params, data=json.dumps(payload))
         data = response.json()
         if not data.get("recipient_id"):
             error = raiseError(data)
@@ -200,7 +204,7 @@ class send:
         print(payload)
         URL = self.URL.format("me/messages")
         params = {"access_token": self.Access_Token}
-        response = requests.post(URL, headers=headers, params=params, data=ujson.dumps(payload))
+        response = requests.post(URL, headers=headers, params=params, data=json.dumps(payload))
         data = response.json()
         if not data.get("recipient_id"):
             error = raiseError(data)
@@ -239,7 +243,7 @@ class send:
         print(payload)
         URL = self.URL.format("me/messages")
         params = {"access_token": self.Access_Token}
-        response = requests.post(URL, headers=headers, params=params, data=ujson.dumps(payload))
+        response = requests.post(URL, headers=headers, params=params, data=json.dumps(payload))
         data = response.json()
         if not data.get("recipient_id"):
             error = raiseError(data)
