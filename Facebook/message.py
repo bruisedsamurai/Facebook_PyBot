@@ -30,9 +30,9 @@ class Message:
          1. USER_ID
          2. PAGE_ID
          Then three objects i.e Message_Received, Message_Delivered,Message_Read
-         Message_Received callback occurs when a message is received by the webhook
-         Message_Delivered callback when a message is delivered to the user
-         Message_Read callback when the message is read by user
+         Message_Received callback occurs when a message is received by the webhook.
+         Message_Delivered callback when a message is delivered to the user.
+         Message_Read callback when the message is read by user.
         :param data: Message containing sender_id,recipient_id,message etc
         :type data: Dict
         """
@@ -57,6 +57,7 @@ class Message:
 class Received:
     """
     Message Received callback
+    
     For more info go to https://developers.facebook.com/docs/messenger-platform/webhook-reference/message
     """
 
@@ -66,7 +67,7 @@ class Received:
         if messaging.get('message'):
             message = messaging['message']
             self.mid = message['mid']
-            if message.get('text'):
+            if message.get('text'): #If a text message is received then the message will be stored
                 self.text = message['text']
             elif message.get('quick_reply'):
                 self.quick_reply = message['quick_reply']
@@ -75,16 +76,18 @@ class Received:
                 # TODO: Attachments object looks like consisting of an array, Take a look at it later
                 for eachAttachment in message['attachments']:
                     """
-                    creates an instance of attachments class and stores it.
+                    If a attachment is received then it will be stored
+                    This creates an instance of attachments class and stores it.
                     the instance will consist of either contain coordinates or either URL of the attachment
                     """
-                    self.attachments = attachments(eachAttachment)
+                    self.attachments = attachments(eachAttachment)  
 
 
 class Delivered:
     """
     Message Delivered callback
     For more info go to https://developers.facebook.com/docs/messenger-platform/webhook-reference/message-delivered
+    If a delivery callback is received then it will be stored otherwise delivery will be none
     """
 
     def __init__(self, messaging):
@@ -104,6 +107,7 @@ class Read:
     """
     Message Read Callback
     For more info go to https://developers.facebook.com/docs/messenger-platform/webhook-reference/message-read
+    If a read callback is received then it will be stored otherwise read will be none
     """
 
     def __init__(self, messaging):
@@ -144,7 +148,10 @@ class attachments:
     def __init__(self, attachment):
         self.type = attachment['type']
         # TODO: Make payload whole one variable
-        if self.type == 'location':
+        """
+        Stores the coordinates of the location if received otherwise stores the url of attachment
+        """
+        if self.type == 'location': 
             self.coordinates_lat = attachment['payload']['coordinates.lat']
             self.coordinates_long = attachment['payload']['coordinates.long']
         else:
