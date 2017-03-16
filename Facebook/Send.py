@@ -124,10 +124,10 @@ class send:
             data = json.decode(data)
         except:
             pass
-        if data.get["first_name"]:
+        try:
             return data["first_name"], data["last_name"], data["profile_pic"], data["locale"], data["timezone"], data[
                 "gender"]
-        else:
+        except:
             return None
 
     def sendButton_template(self, User_id, text, Button_1, Button_2=None, Button_3=None):
