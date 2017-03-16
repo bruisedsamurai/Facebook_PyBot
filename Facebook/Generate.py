@@ -36,7 +36,7 @@ class generate:
 
     def element(self, title, subtitle, image_url, *args):
         """
-
+        Generates payload for element
         :param title:Bubble title
         :type title: str
         :param subtitle:Bubble subtitle
