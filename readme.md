@@ -30,7 +30,7 @@ create a new script and write:
 
 
 	import os
-	from facebook import webhook
+	import Facebook
 
 then create a new Verify Token; It can be alphanumeric. And store it in a variable named.
 
