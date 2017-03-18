@@ -71,6 +71,8 @@ After the verification is done, You can create your script torun bots. A few exa
 8. button(type, title, url, payload, webview_height)	//Generates payload for button
 9. element(title, subtitle, image_url, *args)		//Generates payload for an element for Template
 
-Note: This wrapper is still in alpha. Even though everything is working but things may change for the improvement of the module.
+Note: 
+1. This wrapper is still in alpha. Even though everything is working but things may change for the improvement of the module.
+2. It is higly recommended to fist read the documentation here https://developers.facebook.com/docs/messenger-platform
 
 A wiki is in work in progress
