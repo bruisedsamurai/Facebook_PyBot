@@ -99,7 +99,8 @@ def raiseError(response_data):
         elif response_data["error"]["error_subcode"] == 2018001:
             return Bad_Parameter_Error("No matching user found")
         else:
-            return Bad_Parameter_Error("Invalid fbid.")
+            data = response_data["error"]["message"]
+            return Bad_Parameter_Error(data)
     elif response_data["error"]["code"] == 613:
         return LimitError("Calls to this API have exceeded the rate limit")
     elif response_data["error"]["code"] == 190:

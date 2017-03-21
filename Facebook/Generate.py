@@ -47,10 +47,11 @@ class generate:
         :type args:Array of button
         :return: dict of element
         """
+        print(subtitle)
         element = {
             "title": title,
-            "image_url": image_url,
             "subtitle": subtitle,
+            "image_url": image_url,
         }
         if args:
             buttons = []

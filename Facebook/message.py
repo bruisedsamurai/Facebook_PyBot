@@ -67,7 +67,7 @@ class Received:
         if messaging.get('message'):
             message = messaging['message']
             self.mid = message['mid']
-            if message.get('text'): #If a text message is received then the message will be stored
+            if message.get('text'):  # If a text message is received then the message will be stored
                 self.text = message['text']
             elif message.get('quick_reply'):
                 self.quick_reply = message['quick_reply']
@@ -147,12 +147,14 @@ class attachments:
 
     def __init__(self, attachment):
         self.type = attachment['type']
+        self.url = None
         # TODO: Make payload whole one variable
         """
         Stores the coordinates of the location if received otherwise stores the url of attachment
         """
-        if self.type == 'location': 
-            self.coordinates_lat = attachment['payload']['coordinates.lat']
-            self.coordinates_long = attachment['payload']['coordinates.long']
+        if self.type == 'location':
+            print(attachment)
+            self.coordinates_lat = attachment['payload']['coordinates']['lat']
+            self.coordinates_long = attachment['payload']['coordinates']['long']
         else:
             self.url = attachment['payload']['url']

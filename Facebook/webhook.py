@@ -6,7 +6,7 @@ from exception import ValidationError
 from message import Updates
 
 
-def auth(Verify_Token, debug=True):
+def run(main_func=None, Verify_Token=None, debug=True):
     app = Flask(__name__)
     app.debug = debug
 
@@ -17,12 +17,6 @@ def auth(Verify_Token, debug=True):
         else:
             raise ValidationError("Failed validation. Make sure the validation tokens match.")
 
-    return app
-
-
-def app_Run(main_func, debug=True):
-    app = Flask(__name__)
-    app.debug = debug
     @app.route('/', methods=['POST'])
     def hook():
         header = request.headers
@@ -37,10 +31,8 @@ def app_Run(main_func, debug=True):
 
 
 def startServer(main_func=None, Verify_Token=None, debug=True, host="127.0.0.1", port="5000"):
-    if main_func is None and Verify_Token is not None:
-        app = auth(Verify_Token, debug)
-    elif main_func is not None:
-        app = app_Run(main_func, debug)
+    if main_func is not None and Verify_Token is not None:
+        app = run(main_func, Verify_Token, debug)
     else:
         raise Exception
     app_logged = TransLogger(app)

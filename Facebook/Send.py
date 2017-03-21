@@ -39,7 +39,6 @@ class send:
         payload["notification_type"] = notification_type
         response = requests.post(URL, headers=headers, params=params, data=json.dumps(payload))
         result = response.json()
-        print(result)
         if 'recipient_id' not in result:
             error = raiseError(result)
             raise error
@@ -185,7 +184,7 @@ class send:
         """
         elements = []
         for arg in args:
-            elements.append(arg)
+            elements.extend(arg)
         payload = {
             "recipient": {
                 "id": User_id
