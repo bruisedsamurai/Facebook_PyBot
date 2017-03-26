@@ -39,6 +39,7 @@ class send:
         payload["notification_type"] = notification_type
         response = requests.post(URL, headers=headers, params=params, data=json.dumps(payload))
         result = response.json()
+        print(result)
         if 'recipient_id' not in result:
             error = raiseError(result)
             raise error
@@ -205,6 +206,7 @@ class send:
         params = {"access_token": self.Access_Token}
         response = requests.post(URL, headers=headers, params=params, data=json.dumps(payload))
         data = response.json()
+        print(data)
         if not data.get("recipient_id"):
             error = raiseError(data)
             raise error

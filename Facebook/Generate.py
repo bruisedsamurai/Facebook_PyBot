@@ -47,7 +47,6 @@ class generate:
         :type args:Array of button
         :return: dict of element
         """
-        print(subtitle)
         element = {
             "title": title,
             "subtitle": subtitle,
