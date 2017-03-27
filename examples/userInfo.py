@@ -8,7 +8,7 @@ import Facebook
 
 def main(message):
 	id=message.USER_ID
-	sent=send(PAGE_ACCESS_TOKEN)
+	sent=Facebook.send(PAGE_ACCESS_TOKEN)
 	if message.Message_Received.text is not None:
 		mess=message.Message_Received.text
 		if mess == "get me":
@@ -22,5 +22,5 @@ def main(message):
 
 if __name__ == "__main__":
     PORT = int(os.environ.get('PORT', '5000'))
-    webhook.startServer(main, host="0.0.0.0", port=PORT)  #start the webhook with main function passes as an arguement
+    Facebook.startServer(main, host="0.0.0.0", port=PORT)  #start the webhook with main function passes as an arguement
         

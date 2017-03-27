@@ -9,7 +9,7 @@ def main(message):
     This function receives the message as an arguement and echo back the text,image,video or audio
     """
     id = message.USER_ID
-    sent = send(Page_Access_Token)
+    sent = Facebook.send(Page_Access_Token)
     if message.Message_Received.text is not None:
         mess = message.Message_Received.text
         sent.sender_action(id)  #Sender action for message read
@@ -23,4 +23,4 @@ def main(message):
 
 if __name__ == "__main__":
     PORT = int(os.environ.get('PORT', '5000'))
-    webhook.startServer(main, host="0.0.0.0", port=PORT)  #start the webhook with main function passes as an arguement
+    Facebook.startServer(main, host="0.0.0.0", port=PORT)  #start the webhook with main function passes as an arguement
