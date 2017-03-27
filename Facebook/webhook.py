@@ -2,8 +2,8 @@ import cherrypy
 from flask import Flask, request
 from paste.translogger import TransLogger
 
-from exception import ValidationError
-from message import Updates
+from .exception import ValidationError
+from .message import Updates
 try:
     import ujson as json
 except:

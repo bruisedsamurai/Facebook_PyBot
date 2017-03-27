@@ -7,7 +7,7 @@ except:
 
 import requests
 
-from exception import raiseError
+from .exception import raiseError
 
 headers = {"Content-Type": "application/json"}
 
