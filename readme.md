@@ -39,7 +39,7 @@ then create a new Verify Token; It can be alphanumeric. And store it in a variab
 Now, add anothers lines to the script
 
 	PORT = int(os.environ.get('PORT', '5000'))
-	webhook.startServer(Verify_Token=Token,port=PORT)
+	Facebook.startServer(Verify_Token=Token,port=PORT)
 
 
 Tip:
