@@ -16,7 +16,7 @@ def main(message):
 			get_UserInfo returns the first name,last name,url of the picture,their locale,timezone and gender of person whom id is passed as an arguement
 			"""
         	fname, lname, picurl, locale, tz, gender = sent.get_UserInfo(id)
-        	ele = generate.element(generate, fname + " " + lname, gender + '\n' + locale, picurl)
+        	ele = generate.element(Facebook.generate, fname + " " + lname, gender + '\n' + locale, picurl)
         	sent.sendGeneric_Template(id, ele)
 
 
