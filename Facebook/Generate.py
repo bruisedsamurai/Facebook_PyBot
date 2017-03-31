@@ -10,7 +10,7 @@ class generate:
         :param url: This URL is opened in a mobile browser when the button is tapped.
         :type url: str
         :param payload: This data will be sent back to your webhook. 1000 character limit.
-        :type payload:str
+        :type payload: str
         :param webview_height: Height of the Webview. Valid values: compact, tall, full.
         :type webview_height: enumerate
         :return: dict of button.
