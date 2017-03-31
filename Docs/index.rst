@@ -9,7 +9,6 @@ Welcome to Facebook-Pybot's documentation!
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
-   Facebook
 
 
 
