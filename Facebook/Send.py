@@ -22,6 +22,7 @@ class send:
         @optional
         sender_action
         @required
+        
         :param User_id: user_id of the recipient
         :type User_id: string
         :param message: Message text
@@ -29,6 +30,7 @@ class send:
         :param notification_type: Push notification type: REGULAR, SILENT_PUSH, or NO_PUSH
         :type notification_type: string
         :return: return response from facebook or type of error if encountered
+        
         """
         URL = self.URL.format("me/messages")
         payload = {}
@@ -49,6 +51,7 @@ class send:
     def send_attachment(self, User_id, type, url=None, file=None, notification_type='REGULAR'):
         """
         @required
+        
         :param User_id: user_id of the recipient
         :param type: Type of attachment, may be image, audio, video, file or template
         :type type: str
@@ -56,6 +59,7 @@ class send:
         :param notification_type: Push notification type: REGULAR, SILENT_PUSH, or NO_PUSH
         :type notification_type: string
         :return: response from facebook or type of error if encountered
+        
         """
 
         payload = {
@@ -88,10 +92,12 @@ class send:
         """
         Sender Action of Facebook bot API.
         For more info https://developers.facebook.com/docs/messenger-platform/send-api-reference/sender-actions
+        
         :param User_id:   User id of the person who is going to receive the action
         :type User_id:
         :param action: type of sender action
         :type action: str
+        
         """
         if not isinstance(action, str):
             raise ValueError
@@ -110,9 +116,11 @@ class send:
     def get_UserInfo(self, User_id):
         """
         for more info go to https://developers.facebook.com/docs/messenger-platform/user-profile
-        :param User_id: User id of the person of whom user info is to be retrieved
+        
+        :param User_id: User id of the person of whom user info is to be retrieved.
         :type User_id:
-        :return: first name,last name,profile pic,locale,timezone,gender
+        :return: first name,last name,profile pic,locale,timezone,gender.
+        
         """
         URL = self.URL.format(User_id)
         key = {"fields": "first_name,last_name,profile_pic,locale,timezone,gender",
@@ -133,10 +141,12 @@ class send:
     def sendButton_template(self, User_id, text, Button_1, Button_2=None, Button_3=None):
         """
         https://developers.facebook.com/docs/messenger-platform/send-api-reference/button-template
-        :param User_id: User Id of the recipient to whom the message is being sent
-        :param text: UTF-8 encoded text of up to 640 characters that appears the in main body
+        
+        :param User_id: User Id of the recipient to whom the message is being sent.
+        :param text: UTF-8 encoded text of up to 640 characters that appears the in main body.
         :param Button_1,Button_2,Button_3:  Set of, one to three, buttons that appear as call-to-actions.
         :return:
+        
         """
         try:
             Button_1 = json.loads(Button_1)
@@ -177,11 +187,13 @@ class send:
     def sendGeneric_Template(self, User_id, *args):
         """
         For more info go to https://developers.facebook.com/docs/messenger-platform/send-api-reference/generic-template
-        :param User_id: User Id of the recipient to whom the message is being sent
+        
+        :param User_id: User Id of the recipient to whom the message is being sent.
         :type User_id:
         :param args: a set of elements(up to 10).
         Element:Data for each bubble in message
         :return:
+        
         """
         elements = []
         for arg in args:
@@ -216,12 +228,14 @@ class send:
     def sendList_template(self, User_id, top_element_style="large", *args):
         """
         For more info go to https://developers.facebook.com/docs/messenger-platform/send-api-reference/list-template
-        :param User_id: User Id of the recipient to whom the message is being sent
+        
+        :param User_id: User Id of the recipient to whom the message is being sent.
         :type User_id: str
-        :param top_element_style:Value must be large or compact. Default to large if not specified
+        :param top_element_style:Value must be large or compact. Default to large if not specified.
         :type top_element_style: enum
-        :param args:List view elements (maximum of 4 elements and minimum of 2 elements)
+        :param args:List view elements (maximum of 4 elements and minimum of 2 elements).
         :return:
+        
         """
         elements = []
         for arg in args:
