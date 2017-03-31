@@ -9,8 +9,8 @@ def Updates(callback):
     This function takes the callback as an input and creates an instance for each message received and stores it into
     an array. Which is then returned
     
-    :param callback: contains the callback from facebook
-    :return: array of Message instances
+    :param callback: contains the callback from facebook.
+    :return: array of Message instances.
     
     """
     entries = []
@@ -36,7 +36,7 @@ class Message:
          Message_Delivered callback when a message is delivered to the user.
          Message_Read callback when the message is read by user.
          
-        :param data: Message containing sender_id,recipient_id,message etc
+        :param data: Message containing sender_id,recipient_id,message etc.
         :type data: Dict
         
         """
