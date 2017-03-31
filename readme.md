@@ -59,17 +59,10 @@ Facebook provides a guide for that:	https://developers.facebook.com/docs/messeng
 
 After the verification is done, You can create your script torun bots. A few examples are given in the repository
 
-### List of available methods
+### Docs
 
-1. send_text(User_id, message, notification_type)
-2. send_attachment(User_id, type, url, file, notification_type)
-3. sender_action(User_id, action)
-4. get_UserInfo(User_id)
-5. sendButton_template(User_id, text, Button_1, Button_2, Button_3)
-6. sendGeneric_Template(User_id, *args)
-7. sendList_template(User_id, top_element_style, *args)
-8. button(type, title, url, payload, webview_height)	//Generates payload for button
-9. element(title, subtitle, image_url, *args)		//Generates payload for an element for Template
+https://facebook-pybot.readthedocs.io/en/latest/
+
 
 Note: 
 1. This wrapper is still in alpha. Even though everything is working but things may change for the improvement of the module.
