@@ -2,6 +2,7 @@ class generate:
     def button(self, type, title="None", url=None, payload=None, webview_height="full"):
         """
         For more info https://developers.facebook.com/docs/messenger-platform/send-api-reference/buttons
+        
         :param type: Type of button.
         :type type: str
         :param title: Button title. 20 character limit.
@@ -13,6 +14,7 @@ class generate:
         :param webview_height:Height of the Webview. Valid values: compact, tall, full.
         :type webview_height:enumerate
         :return: dict of button
+        
         """
         button = {
             "type": type,
@@ -37,6 +39,7 @@ class generate:
     def element(self, title, subtitle, image_url, *args):
         """
         Generates payload for element
+        
         :param title:Bubble title
         :type title: str
         :param subtitle:Bubble subtitle
@@ -46,6 +49,7 @@ class generate:
         :param args:Set of buttons that appear as call-to-actions
         :type args:Array of button
         :return: dict of element
+        
         """
         element = {
             "title": title,
