@@ -1,1 +1,1 @@
-..automodule:: Facebook.message
+.. automodule:: Facebook.message

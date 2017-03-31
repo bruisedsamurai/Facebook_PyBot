@@ -1,1 +1,1 @@
-..automodule:: Facebook.webhook
+.. automodule:: Facebook.webhook

@@ -1,1 +1,1 @@
-..automodule:: Facebook.Send
+.. automodule:: Facebook.Send
