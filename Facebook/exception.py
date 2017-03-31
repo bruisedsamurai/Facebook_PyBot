@@ -8,7 +8,9 @@ class ValidationError(Error):
         @required
         Code
         Description
+        
         :type description: object
+        
         """
         self.description = description
 
@@ -19,7 +21,9 @@ class InternalError(Error):
         @required
         Code
         Description
+        
         :type description: object
+        
         """
         self.description = description
 
@@ -30,7 +34,9 @@ class LimitError(Error):
         @required
         Code
         Description
+        
         :type description: object
+        
         """
         self.description = description
 
@@ -41,7 +47,9 @@ class Bad_Parameter_Error(Error):
         @required
         Code
         Description
+        
         :type description: object
+        
         """
         self.description = description
 
@@ -52,7 +60,9 @@ class Access_Token_Errors(Error):
         @required
         Code
         Description
+        
         :type description: object
+        
         """
         self.description = description
 
@@ -63,7 +73,9 @@ class Permission_Error(Error):
         @required
         Code
         Description
+        
         :type description: object
+        
         """
         self.description = description
 
@@ -74,7 +86,9 @@ class Account_Linking_Errors(Error):
         @required
         Code
         Description
+        
         :type description: object
+        
         """
         self.description = description
 
