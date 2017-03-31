@@ -7,13 +7,13 @@ class generate:
         :type type: str
         :param title: Button title. 20 character limit.
         :type title: str
-        :param url:This URL is opened in a mobile browser when the button is tapped
+        :param url:This URL is opened in a mobile browser when the button is tapped.
         :type url: str
         :param payload:This data will be sent back to your webhook. 1000 character limit.
         :type payload:str
         :param webview_height:Height of the Webview. Valid values: compact, tall, full.
         :type webview_height:enumerate
-        :return: dict of button
+        :return: dict of button.
         
         """
         button = {
@@ -40,15 +40,15 @@ class generate:
         """
         Generates payload for element
         
-        :param title:Bubble title
+        :param title:Bubble title.
         :type title: str
-        :param subtitle:Bubble subtitle
+        :param subtitle:Bubble subtitle.
         :type subtitle: str
-        :param image_url:Bubble image
+        :param image_url:Bubble image.
         :type image_url: str
-        :param args:Set of buttons that appear as call-to-actions
+        :param args:Set of buttons that appear as call-to-actions.
         :type args:Array of button
-        :return: dict of element
+        :return: dict of element.
         
         """
         element = {
