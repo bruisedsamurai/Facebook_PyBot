@@ -1,1 +1,4 @@
-..automodule:: Facebook.Generate
+.. automodule:: Facebook.Generate
+	:members:
+	:undoc-members:
+	:show-inheritance:
