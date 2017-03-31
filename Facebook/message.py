@@ -8,8 +8,10 @@ def Updates(callback):
     """
     This function takes the callback as an input and creates an instance for each message received and stores it into
     an array. Which is then returned
+    
     :param callback: contains the callback from facebook
     :return: array of Message instances
+    
     """
     entries = []
     try:
@@ -33,8 +35,10 @@ class Message:
          Message_Received callback occurs when a message is received by the webhook.
          Message_Delivered callback when a message is delivered to the user.
          Message_Read callback when the message is read by user.
+         
         :param data: Message containing sender_id,recipient_id,message etc
         :type data: Dict
+        
         """
         self.USER_ID = str(data['sender']['id'])
         self.PAGE_ID = data['recipient']['id']
