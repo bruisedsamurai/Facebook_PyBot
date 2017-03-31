@@ -93,8 +93,8 @@ class send:
         Sender Action of Facebook bot API.
         For more info https://developers.facebook.com/docs/messenger-platform/send-api-reference/sender-actions
         
-        :param User_id:   User id of the person who is going to receive the action
-        :type User_id:
+        :param User_id: User id of the person who is going to receive the action
+        :type User_id: str
         :param action: type of sender action
         :type action: str
         
@@ -118,7 +118,7 @@ class send:
         for more info go to https://developers.facebook.com/docs/messenger-platform/user-profile
         
         :param User_id: User id of the person of whom user info is to be retrieved.
-        :type User_id:
+        :type User_id: str
         :return: first name,last name,profile pic,locale,timezone,gender.
         
         """
@@ -144,7 +144,7 @@ class send:
         
         :param User_id: User Id of the recipient to whom the message is being sent.
         :param text: UTF-8 encoded text of up to 640 characters that appears the in main body.
-        :param Button_1,Button_2,Button_3:  Set of, one to three, buttons that appear as call-to-actions.
+        :param Button_1,Button_2,Button_3: Set of, one to three, buttons that appear as call-to-actions.
         :return:
         
         """
@@ -189,9 +189,9 @@ class send:
         For more info go to https://developers.facebook.com/docs/messenger-platform/send-api-reference/generic-template
         
         :param User_id: User Id of the recipient to whom the message is being sent.
-        :type User_id:
+        :type User_id: str
         :param args: a set of elements(up to 10).
-        Element:Data for each bubble in message
+        Element: Data for each bubble in message
         :return:
         
         """
@@ -231,9 +231,9 @@ class send:
         
         :param User_id: User Id of the recipient to whom the message is being sent.
         :type User_id: str
-        :param top_element_style:Value must be large or compact. Default to large if not specified.
+        :param top_element_style: Value must be large or compact. Default to large if not specified.
         :type top_element_style: enum
-        :param args:List view elements (maximum of 4 elements and minimum of 2 elements).
+        :param args: List view elements (maximum of 4 elements and minimum of 2 elements).
         :return:
         
         """
