@@ -35,4 +35,4 @@ Note:
 
 A wiki is in work in progress
 
-You can join here to get help any help - tg://join?invite=AAAAAEKk2oeomfP2p3Cljg
+You can join here to get help any help - [Telegram Group](https://t.me/joinchat/AAAAAEKk2oeomfP2p3Cljg)
