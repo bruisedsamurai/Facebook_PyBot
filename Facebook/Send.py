@@ -6,6 +6,10 @@ except:
     import json
 
 import requests
+import logging
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
 
 from .exception import raiseError
 
@@ -17,7 +21,7 @@ class send:
         self.URL = 'https://graph.facebook.com/v2.8/{}'
         self.Access_Token = Page_Access_Token
 
-    def send_text(self, User_id, message, notification_type='REGULAR'):
+    def send_text(self, User_id, message, notification_type='REGULAR', quick_reply=None):
         """
         @optional
         sender_action
@@ -29,6 +33,7 @@ class send:
         :type message: string
         :param notification_type: Push notification type: REGULAR, SILENT_PUSH, or NO_PUSH
         :type notification_type: string
+        :param quick_reply: a list containing number of quick replies.(Up to 11)
         :return: return response from facebook or type of error if encountered
         
         """
@@ -38,17 +43,18 @@ class send:
         headers = {"Content-Type": "application/json"}
         payload['recipient'] = {"id": User_id}
         payload['message'] = {"text": message}
+        if quick_reply is not None:
+            payload["message"]["quick_reply"] = quick_reply
         payload["notification_type"] = notification_type
         response = requests.post(URL, headers=headers, params=params, data=json.dumps(payload))
         result = response.json()
-        print(result)
         if 'recipient_id' not in result:
             error = raiseError(result)
             raise error
         else:
             return result
 
-    def send_attachment(self, User_id, type, url=None, file=None, notification_type='REGULAR'):
+    def send_attachment(self, User_id, type, url=None, file=None, notification_type='REGULAR', quick_reply=None):
         """
         @required
         
@@ -58,6 +64,7 @@ class send:
         :param url: URL of data
         :param notification_type: Push notification type: REGULAR, SILENT_PUSH, or NO_PUSH
         :type notification_type: string
+        :param quick_reply: a list containing number of quick replies.(Up to 11)
         :return: response from facebook or type of error if encountered
         
         """
@@ -77,6 +84,8 @@ class send:
             payload["message"]["attachment"]["payload"]["url"] = url
         else:
             payload["filedata"] = (os.path.basename(file), open(file, 'rb'))
+        if quick_reply is not None:
+            payload["message"]["quick_replies"] = quick_reply
         payload["notification_type"] = notification_type
         params = {"access_token": self.Access_Token}
         URL = self.URL.format("me/messages")
@@ -138,13 +147,14 @@ class send:
         except:
             return None
 
-    def sendButton_template(self, User_id, text, Button_1, Button_2=None, Button_3=None):
+    def sendButton_template(self, User_id, text, Button_1, Button_2=None, Button_3=None, quick_reply=None):
         """
         https://developers.facebook.com/docs/messenger-platform/send-api-reference/button-template
         
         :param User_id: User Id of the recipient to whom the message is being sent.
         :param text: UTF-8 encoded text of up to 640 characters that appears the in main body.
         :param Button_1,Button_2,Button_3: Set of, one to three, buttons that appear as call-to-actions.
+        :param quick_reply: a list containing number of quick replies.(Up to 11)
         :return:
         
         """
@@ -174,6 +184,8 @@ class send:
                 }
             }
         }
+        if quick_reply is not None:
+            payload["message"]["quick_reply"] = quick_reply
         URL = self.URL.format("me/messages")
         params = {"access_token": self.Access_Token}
         response = requests.post(URL, headers=headers, params=params, data=json.dumps(payload))
@@ -184,20 +196,19 @@ class send:
         else:
             return data
 
-    def sendGeneric_Template(self, User_id, *args):
+    def sendGeneric_Template(self, User_id, elements, quick_reply=None):
         """
         For more info go to https://developers.facebook.com/docs/messenger-platform/send-api-reference/generic-template
         
         :param User_id: User Id of the recipient to whom the message is being sent.
         :type User_id: str
-        :param args: a set of elements(up to 10).
+        :param elements: a list of elements(up to 10).
+        :param quick_reply: a list containing number of quick replies.(Up to 11)
         Element: Data for each bubble in message
         :return:
         
         """
-        elements = []
-        for arg in args:
-            elements.extend(arg)
+        logger.info(elements)
         payload = {
             "recipient": {
                 "id": User_id
@@ -213,19 +224,21 @@ class send:
                 }
             }
         }
-        print(payload)
+        logger.info(payload)
+        if quick_reply is not None:
+            payload["message"]["quick_reply"] = quick_reply
         URL = self.URL.format("me/messages")
         params = {"access_token": self.Access_Token}
         response = requests.post(URL, headers=headers, params=params, data=json.dumps(payload))
         data = response.json()
-        print(data)
+        logger.info(data)
         if not data.get("recipient_id"):
             error = raiseError(data)
             raise error
         else:
             return data
 
-    def sendList_template(self, User_id, top_element_style="large", *args):
+    def sendList_template(self, User_id, elements, top_element_style="large", quick_reply=None):
         """
         For more info go to https://developers.facebook.com/docs/messenger-platform/send-api-reference/list-template
         
@@ -233,13 +246,11 @@ class send:
         :type User_id: str
         :param top_element_style: Value must be large or compact. Default to large if not specified.
         :type top_element_style: enum
-        :param args: List view elements (maximum of 4 elements and minimum of 2 elements).
+        :param elements: List of view elements (maximum of 4 elements and minimum of 2 elements).
+        :param quick_reply: a list containing number of quick replies.(Up to 11)
         :return:
         
         """
-        elements = []
-        for arg in args:
-            elements.append(arg)
         payload = {
             "recipient": {
                 "id": User_id
@@ -255,7 +266,9 @@ class send:
                 }
             }
         }
-        print(payload)
+        logger.info(payload)
+        if quick_reply is not None:
+            payload["message"]["quick_reply"] = quick_reply
         URL = self.URL.format("me/messages")
         params = {"access_token": self.Access_Token}
         response = requests.post(URL, headers=headers, params=params, data=json.dumps(payload))

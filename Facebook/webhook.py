@@ -1,18 +1,35 @@
+import hmac
+import logging
+import queue
+import threading
+try:
+    import ujson as json
+except:
+    import json
+
 import cherrypy
 from flask import Flask, request
 from paste.translogger import TransLogger
 
 from .exception import ValidationError
 from .message import Updates
-try:
-    import ujson as json
-except:
-    import json
 
-import hmac
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
 
-
-def run(main_func=None, Verify_Token=None, debug=True,app_secret_key=None):
+def run(main_func=None, Verify_Token=None, debug=True, app_secret_key=None):
+    """
+    Flask app runs in this function.
+    Whenever a get request is received a the verify token is verified.
+    And for a post request the request is verified and then data is passed to main_func.
+    
+    :param main_func: The function to which data is to be passed and is the code of the bot
+    :param Verify_Token: needed for initial verification
+    :param debug: 
+    :param app_secret_key: app secret key needed for verify authenticity of the post request
+    :return: flask app
+    
+    """
     app = Flask(__name__)
     app.debug = debug
 
@@ -26,44 +43,55 @@ def run(main_func=None, Verify_Token=None, debug=True,app_secret_key=None):
     @app.route('/', methods=['POST'])
     def hook():
         header = request.headers
-        callback = request.get_json()
+        logger.info(header)
+        data = request.get_data()
+        logger.info(data)
+        callback = json.loads(data)
+        logger.info(callback)
         if app_secret_key is not None:
-            verify_result=verify(callback,header,app_secret_key)
+            verify_result = verify(data, header, app_secret_key)
         else:
-            verify_result=True
+            verify_result = True
         if verify_result:
+            Queue = queue.Queue()
             web = Updates(callback)
             for message in web:
-                main_func(message)
-            return "success", 200
-        else:
-            return "Die Please"
+                Queue.put(main_func(message))
+                threading.Thread(target=Queue.get()).start()
+        return "success", 200
 
     return app
 
-def verify(callback,header,app_secret_key):
-    try:
-        keyback=json.dumps(callback)
-        X_hub_sign=header["X-Hub-Signature"]
-        method,sign=X_hub_sign.split("=")
-    except:
-        pass
+
+def verify(callback, header, app_secret_key):
+    """
+    This function will verify the integrity and authenticity of the callback received
+    
+    :param callback: callback received from facebook
+    :param header: headers of the request
+    :param app_secret_key: facebook app secret key. You can find it on your app page
+    :return: True if signature matches else returns false
+    
+    """
+    X_hub_sign = header["X-Hub-Signature"]
+    logger.info(X_hub_sign)
+    method, sign = X_hub_sign.split("=")
     """
     Now a key will be created of callback using app secret as the key.
     And compared with xsignature found in the the headers of the request.
     If both the keys match then the function will run further otherwise it will halt
     """
-    hmac_object=hmac.new(app_secret_key.encode("utf-8"),str(keyback).encode("utf-8"),"sha1")
-    key=hmac_object.hexdigest()
-    if sign==key:
-        return True
-    else:
-        return False
+    hmac_object = hmac.new(app_secret_key.encode("utf-8"), callback, "sha1")
+    key = hmac_object.hexdigest()
+    logger.info(key)
+    return hmac.compare_digest(sign, key)
 
 
-def startServer(main_func=None, Verify_Token=None, debug=True, host="127.0.0.1", port="5000",app_secret_key=None):
+def startServer(main_func=None, Verify_Token=None, debug=True, host="127.0.0.1", port="5000", app_secret_key=None):
     if main_func is not None and Verify_Token is not None:
-        app = run(main_func, Verify_Token, debug,app_secret_key)
+        app = run(main_func, Verify_Token, debug, app_secret_key)
+    elif Verify_Token is not None:
+        app = run(Verify_Token=Verify_Token, debug=debug, app_secret_key=app_secret_key)
     else:
         raise Exception
     app_logged = TransLogger(app)

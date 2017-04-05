@@ -66,16 +66,13 @@ class Received:
     """
 
     def __init__(self, messaging):
-        self.mid = self.text = self.quick_reply = self.payload = None
+        self.mid = self.text = self.quick_reply = None
         self.attachments = None
         if messaging.get('message'):
             message = messaging['message']
             self.mid = message['mid']
             if message.get('text'):  # If a text message is received then the message will be stored
                 self.text = message['text']
-            elif message.get('quick_reply'):
-                self.quick_reply = message['quick_reply']
-                self.payload = self.quick_reply['payload']
             elif message.get('attachments'):  # an array of attachments is stored here
                 # TODO: Attachments object looks like consisting of an array, Take a look at it later
                 for eachAttachment in message['attachments']:
@@ -84,8 +81,10 @@ class Received:
                     This creates an instance of attachments class and stores it.
                     the instance will consist of either contain coordinates or either URL of the attachment
                     """
-                    self.attachments = attachments(eachAttachment)  
-
+                    self.attachments = attachments(eachAttachment)
+            if message.get('quick_reply'):
+                self.quick_reply = message['quick_reply']
+                self.payload = self.quick_reply['payload']
 
 class Delivered:
     """
@@ -158,6 +157,8 @@ class attachments:
         """
         if self.type == 'location':
             print(attachment)
+            self.title = attachment["title"]
+            self.url = attachment["url"]
             self.coordinates_lat = attachment['payload']['coordinates']['lat']
             self.coordinates_long = attachment['payload']['coordinates']['long']
         else:
