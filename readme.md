@@ -34,3 +34,5 @@ Note:
 2. It is higly recommended to fist read the documentation here https://developers.facebook.com/docs/messenger-platform
 
 A wiki is in work in progress
+
+You can join here to get help any help - [Telegram Group](tg://join?invite=AAAAAEKk2oeomfP2p3Cljg)
