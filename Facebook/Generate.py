@@ -1,5 +1,6 @@
-class generate:
-    def button(self, type, title="None", url=None, payload=None, webview_height="full"):
+class Generate:
+    @staticmethod
+    def button(type, title="None", url=None, payload=None, webview_height="full"):
         """
         For more info https://developers.facebook.com/docs/messenger-platform/send-api-reference/buttons
         
@@ -36,7 +37,8 @@ class generate:
             button.pop("title")
         return button
 
-    def element(self, title, subtitle, image_url, *args):
+    @staticmethod
+    def element(title, subtitle, image_url, *args):
         """
         Generates payload for element
         
@@ -64,7 +66,8 @@ class generate:
         print(element)
         return element
 
-    def quick_reply(self, content_type, title=None, payload=None, image_url=None):
+    @staticmethod
+    def quick_reply(content_type, title=None, payload=None, image_url=None):
         """
         This method creates a dict for a quick_reply
         

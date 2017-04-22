@@ -23,4 +23,4 @@ def main(message):
 
 if __name__ == "__main__":
     PORT = int(os.environ.get('PORT', '5000'))
-    Facebook.startServer(main, host="0.0.0.0", port=PORT)  #start the webhook with main function passes as an arguement
+    Facebook.start_server(main, host="0.0.0.0", port=PORT)  #start the webhook with main function passes as an arguement

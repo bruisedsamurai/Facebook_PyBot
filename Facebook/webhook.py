@@ -1,7 +1,8 @@
 import hmac
 import logging
-import queue
-import threading
+import traceback
+from multiprocessing import Process
+
 try:
     import ujson as json
 except:
@@ -12,12 +13,14 @@ from flask import Flask, request
 from paste.translogger import TransLogger
 
 from .exception import ValidationError
-from .message import Updates
+from .message import updates
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
+
 def run(main_func=None, Verify_Token=None, debug=True, app_secret_key=None):
+
     """
     Flask app runs in this function.
     Whenever a get request is received a the verify token is verified.
@@ -48,16 +51,20 @@ def run(main_func=None, Verify_Token=None, debug=True, app_secret_key=None):
         logger.info(data)
         callback = json.loads(data)
         logger.info(callback)
+
         if app_secret_key is not None:
             verify_result = verify(data, header, app_secret_key)
         else:
-            verify_result = True
+            verify_result = True  # For now verification of the response from facebook is optional
         if verify_result:
-            Queue = queue.Queue()
-            web = Updates(callback)
+            web = updates(callback)
             for message in web:
-                Queue.put(main_func(message))
-                threading.Thread(target=Queue.get()).start()
+                try:
+                    calculation = Process(target=main_func(message))
+                    calculation.start()
+                except:
+                    print(traceback.print_exc())
+        logger.info("success")
         return "success", 200
 
     return app
@@ -87,7 +94,7 @@ def verify(callback, header, app_secret_key):
     return hmac.compare_digest(sign, key)
 
 
-def startServer(main_func=None, Verify_Token=None, debug=True, host="127.0.0.1", port="5000", app_secret_key=None):
+def start_server(main_func=None, Verify_Token=None, debug=True, host="127.0.0.1", port="5000", app_secret_key=None):
     if main_func is not None and Verify_Token is not None:
         app = run(main_func, Verify_Token, debug, app_secret_key)
     elif Verify_Token is not None:

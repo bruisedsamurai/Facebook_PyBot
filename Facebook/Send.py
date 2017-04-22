@@ -11,12 +11,12 @@ import logging
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
-from .exception import raiseError
+from .exception import raise_error
 
 headers = {"Content-Type": "application/json"}
 
 
-class send:
+class Send:
     def __init__(self, Page_Access_Token):
         self.URL = 'https://graph.facebook.com/v2.8/{}'
         self.Access_Token = Page_Access_Token
@@ -49,7 +49,7 @@ class send:
         response = requests.post(URL, headers=headers, params=params, data=json.dumps(payload))
         result = response.json()
         if 'recipient_id' not in result:
-            error = raiseError(result)
+            error = raise_error(result)
             raise error
         else:
             return result
@@ -92,7 +92,7 @@ class send:
         response = requests.post(URL, headers=headers, params=params, data=json.dumps(payload))
         result = response.json()
         if "recipient_id" not in result:
-            error = raiseError(result)
+            error = raise_error(result)
             raise error
         else:
             return result
@@ -122,7 +122,7 @@ class send:
         data = response.json()
         return data
 
-    def get_UserInfo(self, User_id):
+    def get_user_info(self, User_id):
         """
         for more info go to https://developers.facebook.com/docs/messenger-platform/user-profile
         
@@ -147,7 +147,7 @@ class send:
         except:
             return None
 
-    def sendButton_template(self, User_id, text, Button_1, Button_2=None, Button_3=None, quick_reply=None):
+    def send_button_template(self, User_id, text, Button_1, Button_2=None, Button_3=None, quick_reply=None):
         """
         https://developers.facebook.com/docs/messenger-platform/send-api-reference/button-template
         
@@ -191,12 +191,12 @@ class send:
         response = requests.post(URL, headers=headers, params=params, data=json.dumps(payload))
         data = response.json()
         if not data.get("recipient_id"):
-            error = raiseError(data)
+            error = raise_error(data)
             raise error
         else:
             return data
 
-    def sendGeneric_Template(self, User_id, elements, quick_reply=None):
+    def send_generic_template(self, User_id, elements, quick_reply=None):
         """
         For more info go to https://developers.facebook.com/docs/messenger-platform/send-api-reference/generic-template
         
@@ -233,12 +233,12 @@ class send:
         data = response.json()
         logger.info(data)
         if not data.get("recipient_id"):
-            error = raiseError(data)
+            error = raise_error(data)
             raise error
         else:
             return data
 
-    def sendList_template(self, User_id, elements, top_element_style="large", quick_reply=None):
+    def send_list_template(self, User_id, elements, top_element_style="large", quick_reply=None):
         """
         For more info go to https://developers.facebook.com/docs/messenger-platform/send-api-reference/list-template
         
@@ -274,7 +274,7 @@ class send:
         response = requests.post(URL, headers=headers, params=params, data=json.dumps(payload))
         data = response.json()
         if not data.get("recipient_id"):
-            error = raiseError(data)
+            error = raise_error(data)
             raise error
         else:
             return data

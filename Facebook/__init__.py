@@ -1,3 +1,3 @@
-from .Generate import generate
-from .Send import send
-from .webhook import startServer
+from .Generate import Generate
+from .Send import Send
+from .webhook import start_server

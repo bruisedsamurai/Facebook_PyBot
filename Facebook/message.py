@@ -4,7 +4,7 @@ except:
     import json
 
 
-def Updates(callback):
+def updates(callback):
     """
     This function takes the callback as an input and creates an instance for each message received and stores it into
     an array. Which is then returned
@@ -26,15 +26,10 @@ def Updates(callback):
 
 
 class Message:
+    custom_data = []
+
     def __init__(self, data):
         """
-        a class for webhooks which consists of
-         1. USER_ID
-         2. PAGE_ID
-         Then three objects i.e Message_Received, Message_Delivered,Message_Read
-         Message_Received callback occurs when a message is received by the webhook.
-         Message_Delivered callback when a message is delivered to the user.
-         Message_Read callback when the message is read by user.
          
         :param data: Message containing sender_id,recipient_id,message etc.
         :type data: Dict
@@ -55,8 +50,6 @@ class Message:
         self.Message_Delivered = Delivered(data)
         self.Message_Read = Read(data)
 
-
-# TODO: add attachments in Received and echo classes
 
 class Received:
     """
@@ -81,10 +74,11 @@ class Received:
                     This creates an instance of attachments class and stores it.
                     the instance will consist of either contain coordinates or either URL of the attachment
                     """
-                    self.attachments = attachments(eachAttachment)
+                    self.attachments = Attachments(eachAttachment)
             if message.get('quick_reply'):
                 self.quick_reply = message['quick_reply']
                 self.payload = self.quick_reply['payload']
+
 
 class Delivered:
     """
@@ -119,7 +113,9 @@ class Read:
             self.Watermark = self.read['watermark']
             self.Seq = self.read['seq']
         else:
+            self.Watermark = None
             self.read = None
+            self.Seq = None
 
 
 class Echo:
@@ -143,7 +139,7 @@ class Echo:
             self.echo = None
 
 
-class attachments:
+class Attachments:
     """
     This class contains the type of the attachments and their payload
     """
@@ -151,14 +147,12 @@ class attachments:
     def __init__(self, attachment):
         self.type = attachment['type']
         self.url = None
-        # TODO: Make payload whole one variable
         """
         Stores the coordinates of the location if received otherwise stores the url of attachment
         """
         if self.type == 'location':
             print(attachment)
             self.title = attachment["title"]
-            self.url = attachment["url"]
             self.coordinates_lat = attachment['payload']['coordinates']['lat']
             self.coordinates_long = attachment['payload']['coordinates']['long']
         else:

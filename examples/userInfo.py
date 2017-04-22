@@ -16,11 +16,11 @@ def main(message):
 			get_UserInfo returns the first name,last name,url of the picture,their locale,timezone and gender of person whom id is passed as an arguement
 			"""
         	fname, lname, picurl, locale, tz, gender = sent.get_UserInfo(id)
-        	ele = generate.element(Facebook.generate, fname + " " + lname, gender + '\n' + locale, picurl)
-        	sent.sendGeneric_Template(id, ele)
+        	ele = generate.element(fname + " " + lname, gender + '\n' + locale, picurl)
+        	sent.send_generic_template(id, ele)
 
 
 if __name__ == "__main__":
     PORT = int(os.environ.get('PORT', '5000'))
-    Facebook.startServer(main, host="0.0.0.0", port=PORT)  #start the webhook with main function passes as an arguement
+    Facebook.start_server(main, host="0.0.0.0", port=PORT)  #start the webhook with main function passes as an arguement
         
