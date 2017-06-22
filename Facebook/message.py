@@ -6,7 +6,7 @@ except:
 
 def updates(callback):
     """
-    This function takes the callback as an input and creates an instance for each message received and stores it into
+    This function takes the callback as an input and creates an instance for each message received and stores it(instance) into
     an array. Which is then returned
     
     :param callback: contains the callback from facebook.
@@ -31,7 +31,7 @@ class Message:
     def __init__(self, data):
         """
          
-        :param data: Message containing sender_id,recipient_id,message etc.
+        :param data: Message containing callback from facebook i.e. sender_id,recipient_id,message etc.
         :type data: Dict
         
         """
@@ -55,34 +55,49 @@ class Received:
     """
     Message Received callback
     
+    This class stores the text or attachment sent by facebook in the callback.
+    
+    Attributes:
+        :param mid:     Message id of the message received. Be it either text or attachment
+        :param text:    stores the text of the message if received(otherwise none)
+        :param attachment: instance of the attachment class
+    
     For more info go to https://developers.facebook.com/docs/messenger-platform/webhook-reference/message
     """
 
     def __init__(self, messaging):
         self.mid = self.text = self.quick_reply = None
         self.attachments = None
+        self.message = None
+        self.postback = None
+        self.referral = None
         if messaging.get('message'):
-            message = messaging['message']
-            self.mid = message['mid']
-            if message.get('text'):  # If a text message is received then the message will be stored
-                self.text = message['text']
-            elif message.get('attachments'):  # an array of attachments is stored here
+            self.message = messaging['message']
+            self.mid = self.message['mid']
+            if self.message.get('text'):  # If a text message is received then the message will be stored
+                self.text = self.message['text']
+            elif self.message.get('attachments'):  # an array of attachments is stored here
                 # TODO: Attachments object looks like consisting of an array, Take a look at it later
-                for eachAttachment in message['attachments']:
+                for eachAttachment in self.message['attachments']:
                     """
                     If a attachment is received then it will be stored
                     This creates an instance of attachments class and stores it.
                     the instance will consist of either contain coordinates or either URL of the attachment
                     """
                     self.attachments = Attachments(eachAttachment)
-            if message.get('quick_reply'):
-                self.quick_reply = message['quick_reply']
+            if self.message.get('quick_reply'):
+                self.quick_reply = self.message['quick_reply']
                 self.payload = self.quick_reply['payload']
+        elif messaging.get("postback"):
+            self.postback = messaging["postback"]
+            self.payload = self.postback.get("payload")
+            self.referral = self.postback.get("referral")
 
 
 class Delivered:
     """
     Message Delivered callback
+        
     For more info go to https://developers.facebook.com/docs/messenger-platform/webhook-reference/message-delivered
     If a delivery callback is received then it will be stored otherwise delivery will be none
     """
@@ -142,14 +157,15 @@ class Echo:
 class Attachments:
     """
     This class contains the type of the attachments and their payload
+    :param type: The type of attachment. Will be one of many type : location, image,video,audio or file
+    :param url: URL of the image,video,audio or file
+    :param coordinates_lat: latitude of the coordinate of the location received
+    :param self.coordinates_long: longitude of the coordinate of the location
     """
 
     def __init__(self, attachment):
         self.type = attachment['type']
         self.url = None
-        """
-        Stores the coordinates of the location if received otherwise stores the url of attachment
-        """
         if self.type == 'location':
             print(attachment)
             self.title = attachment["title"]

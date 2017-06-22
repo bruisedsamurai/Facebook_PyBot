@@ -2,6 +2,7 @@ class Generate:
     @staticmethod
     def button(type, title="None", url=None, payload=None, webview_height="full"):
         """
+        Creates a payload of button
         For more info https://developers.facebook.com/docs/messenger-platform/send-api-reference/buttons
         
         :param type: Type of button.
@@ -11,7 +12,6 @@ class Generate:
         :param url: This URL is opened in a mobile browser when the button is tapped.
         :type url: str
         :param payload: This data will be sent back to your webhook. 1000 character limit.
-        :type payload: str
         :param webview_height: Height of the Webview. Valid values: compact, tall, full.
         :type webview_height: enumerate
         :return: dict of button.
@@ -38,7 +38,7 @@ class Generate:
         return button
 
     @staticmethod
-    def element(title, subtitle, image_url, *args):
+    def element(title, subtitle=None, image_url=None, buttons=None):
         """
         Generates payload for element
         
@@ -48,8 +48,8 @@ class Generate:
         :type subtitle: str
         :param image_url: Bubble image.
         :type image_url: str
-        :param args: Set of buttons that appear as call-to-actions.
-        :type args: Array of button
+        :param buttons: Set of buttons that appear as call-to-actions.
+        :type buttons: Array/list of button
         :return: dict of element.
         
         """
@@ -58,12 +58,12 @@ class Generate:
             "subtitle": subtitle,
             "image_url": image_url,
         }
-        if args:
-            buttons = []
-            for button in args:
-                buttons.append(button)
+        if subtitle is None:
+            element.pop("subtitle")
+        if image_url is None:
+            element.pop("image_url")
+        if buttons is not None:
             element["buttons"] = buttons
-        print(element)
         return element
 
     @staticmethod
@@ -86,7 +86,7 @@ class Generate:
             "content_type": content_type,
         }
         if content_type == "text":
-            if title or payload is None:
+            if (title or payload) is None:
                 raise ValueError
             quick_reply["title"] = title
             quick_reply["payload"] = payload

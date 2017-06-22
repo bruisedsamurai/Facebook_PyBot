@@ -108,9 +108,9 @@ def raise_error(response_data):
     elif response_data["error"]["code"] == 4:
         return LimitError("Too many send requests to phone numbers")
     elif response_data["error"]["code"] == 100:
-        if response_data["error"]["error_subcode"] == 2018109:
+        if response_data["error"].get("error_subcode") == 2018109:
             return LimitError("Attachment size exceeds allowable limit")
-        elif response_data["error"]["error_subcode"] == 2018001:
+        elif response_data["error"].get("error_subcode") == 2018001:
             return BadParameterError("No matching user found")
         else:
             data = response_data["error"]["message"]
@@ -120,15 +120,15 @@ def raise_error(response_data):
     elif response_data["error"]["code"] == 190:
         return AccessTokenErrors("Invalid OAuth access token.")
     elif response_data["error"]["code"] == 10:
-        if response_data["error"]["error_subcode"] == 2018065:
+        if response_data["error"].get("error_subcode") == 2018065:
             return PermissionError(
                 "This message is sent outside of allowed window. "
                 "You need page_messaging_subscriptions permission to be able to do it.")
-        elif response_data["error"]["error_subcode"] == 2018108:
+        elif response_data["error"].get("error_subcode") == 2018108:
             return PermissionError(
                 "This Person Cannot Receive Messages: This person isn't receiving messages from you right now.")
     elif response_data["error"]["code"] == 200:
-        if response_data["error"]["error_subcode"] == 2018028:
+        if response_data["error"].get("error_subcode") == 2018028:
             return PermissionError(
                 "Cannot message users who are not admins, "
                 "developers or testers of the app until pages_messaging permission is reviewed and the app is live.")
