@@ -1,8 +1,12 @@
 import os
 
 import Facebook
+import cherrpy
+from paste.translogger import TransLogger
 
 Page_Access_Token = ""  #Page access token; Required for sending the response
+verify_token = ""       #Needed initially for verifying the webhook
+app_secret_key = ""     #required for verifying the incoming payload. It's optional
 
 def main(message):
     """
@@ -20,7 +24,18 @@ def main(message):
         url = message.Message_Received.attachments.url
         sent.send_attachment(id, type, url)
 
-
+#The method is below for starting with cherrpy server
 if __name__ == "__main__":
-    PORT = int(os.environ.get('PORT', '5000'))
+    port = int(os.environ.get('PORT', '5000'))
+    app = webhook.http(main,verify_token,app_secret_key)
     Facebook.start_server(main, host="0.0.0.0", port=PORT)  #start the webhook with main function passes as an arguement
+    app_logged = TransLogger(app)
+    cherrypy.tree.graft(app_logged, '/')
+    cherrypy.config.update({
+        'engine.autoreload_on': True,
+        'log.screen': True,
+        'server.socket_port': port,
+        'server.socket_host': '0.0.0.0'
+    })
+    # Start the CherryPy WSGI web server
+    cherrypy.engine.start()

@@ -213,7 +213,6 @@ class Send:
         :return:
         
         """
-        logger.info(elements)
         payload = {
             "recipient": {
                 "id": user_id
@@ -229,7 +228,6 @@ class Send:
                 }
             }
         }
-        logger.info(payload)
         if quick_replies is not None:
             payload["message"]["quick_replies"] = quick_replies
         url = self.URL.format("me/messages")
@@ -271,7 +269,6 @@ class Send:
                 }
             }
         }
-        logger.info(payload)
         if quick_replies is not None:
             payload["message"]["quick_replies"] = quick_replies
         url = self.URL.format("me/messages")

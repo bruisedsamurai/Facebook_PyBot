@@ -99,6 +99,7 @@ class Delivered:
     Message Delivered callback
         
     For more info go to https://developers.facebook.com/docs/messenger-platform/webhook-reference/message-delivered
+
     If a delivery callback is received then it will be stored otherwise delivery will be none
     """
 
@@ -118,7 +119,9 @@ class Delivered:
 class Read:
     """
     Message Read Callback
+
     For more info go to https://developers.facebook.com/docs/messenger-platform/webhook-reference/message-read
+
     If a read callback is received then it will be stored otherwise read will be none
     """
 
@@ -136,6 +139,7 @@ class Read:
 class Echo:
     """
     Message Echo callback
+
     For more info go to https://developers.facebook.com/docs/messenger-platform/webhook-reference/message-echo
     """
 
@@ -157,10 +161,13 @@ class Echo:
 class Attachments:
     """
     This class contains the type of the attachments and their payload
+
+
     :param type: The type of attachment. Will be one of many type : location, image,video,audio or file
     :param url: URL of the image,video,audio or file
     :param coordinates_lat: latitude of the coordinate of the location received
     :param self.coordinates_long: longitude of the coordinate of the location
+
     """
 
     def __init__(self, attachment):

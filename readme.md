@@ -30,9 +30,8 @@ https://facebook-pybot.readthedocs.io/en/latest/
 
 
 Note: 
-1. This wrapper is still in alpha. Even though everything is working but things may change for the improvement of the module.
+1. This wrapper is still in beta. there are yet features missing and bugs may occur. Please report any issues or features requests 
 2. It is higly recommended to fist read the documentation here https://developers.facebook.com/docs/messenger-platform
 
 A wiki is in work in progress
 
-You can join here to get help any help - [Telegram Group](https://t.me/joinchat/AAAAAEKk2oeomfP2p3Cljg)

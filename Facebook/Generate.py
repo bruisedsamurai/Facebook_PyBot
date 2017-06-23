@@ -64,6 +64,7 @@ class Generate:
             element.pop("image_url")
         if buttons is not None:
             element["buttons"] = buttons
+            print(buttons)
         return element
 
     @staticmethod
