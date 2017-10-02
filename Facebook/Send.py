@@ -11,8 +11,6 @@ import requests
 import logging
 
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
-
 
 headers = {"Content-Type": "application/json"}
 
@@ -234,7 +232,6 @@ class Send:
         params = {"access_token": self.Access_Token}
         response = requests.post(url, headers=headers, params=params, data=json.dumps(payload))
         data = response.json()
-        logger.info(data)
         if not data.get("recipient_id"):
             error = raise_error(data)
             raise error

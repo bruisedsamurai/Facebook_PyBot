@@ -14,7 +14,6 @@ from .exception import ValidationError
 from .message import updates
 
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
 
 
 def http(main_func=None, verify_token=None, app_secret_key=None):
@@ -34,7 +33,6 @@ def http(main_func=None, verify_token=None, app_secret_key=None):
             resp.status = falcon.HTTP_200
             resp.body = "success"
             signature = req.get_header("X-Hub-Signature")
-            logger.info(signature)
             data = req.stream.read()
             verify_result = True  # verification of the callback is optional currently. Therefore if no app secret key is passed then the bot will run anyway
             if app_secret_key is not None:
@@ -43,16 +41,20 @@ def http(main_func=None, verify_token=None, app_secret_key=None):
                 callback = json.loads(data)
                 web = updates(callback)
                 for message in web:  # Sometimes there are more than one number of callbacks.
-                    try:
-                        thread = Thread(target=main_func(message))
-                        thread.daemon = True
-                        thread.run()
-                    except:
-                        print(traceback.print_exc())
+                    _run(main_func, message)
 
     api = HttpApi()
     app.add_route('/', api)
     return app
+
+
+def _run(func, message):
+    try:
+        thread = Thread(target=func(message))
+        thread.daemon = True
+        thread.run()
+    except:
+        print(traceback.print_exc())
 
 
 def _verify(callback, signature, app_secret_key):
@@ -74,6 +76,4 @@ def _verify(callback, signature, app_secret_key):
     """
     hmac_object = hmac.new(app_secret_key.encode("utf-8"), callback, "sha1")
     key = hmac_object.hexdigest()
-    logger.info(key)
     return hmac.compare_digest(sign, key)
-

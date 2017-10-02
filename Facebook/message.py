@@ -26,7 +26,6 @@ def updates(callback):
 
 
 class Message:
-    custom_data = []
 
     def __init__(self, data):
         """
@@ -45,7 +44,7 @@ class Message:
             self.Message_Echo = Echo(data)
             # if self.Message_Echo.echo is not None:
             # self.Message_Received.message = None
-        except:
+        except KeyError:
             pass
         self.Message_Delivered = Delivered(data)
         self.Message_Read = Read(data)
@@ -61,6 +60,8 @@ class Received:
         :param mid:     Message id of the message received. Be it either text or attachment
         :param text:    stores the text of the message if received(otherwise none)
         :param attachment: instance of the attachment class
+        :param quick_reply_payload: The data received in the callback. It is received when quick replies are tapped and it's content depends on the postback data sent in developer payload.
+        :param postback_payload: The postback data received in the callback
     
     For more info go to https://developers.facebook.com/docs/messenger-platform/webhook-reference/message
     """
@@ -87,10 +88,10 @@ class Received:
                     self.attachments = Attachments(eachAttachment)
             if self.message.get('quick_reply'):
                 self.quick_reply = self.message['quick_reply']
-                self.payload = self.quick_reply['payload']
+                self.quick_reply_payload = self.quick_reply['payload']
         elif messaging.get("postback"):
             self.postback = messaging["postback"]
-            self.payload = self.postback.get("payload")
+            self.postback_payload = self.postback.get("payload")
             self.referral = self.postback.get("referral")
 
 

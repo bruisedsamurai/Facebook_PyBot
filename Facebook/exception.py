@@ -148,5 +148,8 @@ def raise_error(response_data):
     elif response_data["error"]["code"] == 194:
         message = response_data["error"]["message"]
         return OAuthException(message)
+    elif response_data["error"]["code"] == 803:
+        message = response_data["error"]["message"]
+        return OAuthException(message)
     else:
         return Exception(response_data["error"]["message"])

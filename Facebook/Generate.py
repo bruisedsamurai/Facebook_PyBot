@@ -49,7 +49,7 @@ class Generate:
         :param image_url: Bubble image.
         :type image_url: str
         :param buttons: Set of buttons that appear as call-to-actions.
-        :type buttons: Array/list of button
+        :type buttons: list
         :return: dict of element.
         
         """
