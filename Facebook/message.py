@@ -1,6 +1,6 @@
 try:
     import ujson as json
-except:
+except ImportError:
     import json
 
 
@@ -34,20 +34,20 @@ class Message:
         :type data: Dict
         
         """
-        self.USER_ID = str(data['sender']['id'])
-        self.PAGE_ID = data['recipient']['id']
+        self.user_id = str(data['sender']['id'])
+        self.page_id = data['recipient']['id']
         # Thing may fuck up a little below, cause I dunno if "is_echo" is always there or just in echo callbacks
         # TODO: Check echo callbacks
 
-        self.Message_Received = Received(data)
+        self.message_received = Received(data)
         try:
-            self.Message_Echo = Echo(data)
+            self.message_echo = Echo(data)
             # if self.Message_Echo.echo is not None:
             # self.Message_Received.message = None
         except KeyError:
             pass
-        self.Message_Delivered = Delivered(data)
-        self.Message_Read = Read(data)
+        self.message_delivered = Delivered(data)
+        self.message_read = Read(data)
 
 
 class Received:
@@ -57,9 +57,9 @@ class Received:
     This class stores the text or attachment sent by facebook in the callback.
     
     Attributes:
-        :param mid:     Message id of the message received. Be it either text or attachment
-        :param text:    stores the text of the message if received(otherwise none)
-        :param attachment: instance of the attachment class
+        :param self.mid:     Message id of the message received. Be it either text or attachment
+        :param self.text:    stores the text of the message if received(otherwise none)
+        :param self.attachment: instance of the attachment class
         :param quick_reply_payload: The data received in the callback. It is received when quick replies are tapped and it's content depends on the postback data sent in developer payload.
         :param postback_payload: The postback data received in the callback
     
@@ -164,7 +164,7 @@ class Attachments:
     This class contains the type of the attachments and their payload
 
 
-    :param type: The type of attachment. Will be one of many type : location, image,video,audio or file
+    : type: The type of attachment. Will be one of many type : location, image,video,audio or file
     :param url: URL of the image,video,audio or file
     :param coordinates_lat: latitude of the coordinate of the location received
     :param self.coordinates_long: longitude of the coordinate of the location

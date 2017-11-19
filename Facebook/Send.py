@@ -4,7 +4,7 @@ from .exception import raise_error
 
 try:
     import ujson as json
-except:
+except ImportError:
     import json
 
 import requests
@@ -16,8 +16,21 @@ headers = {"Content-Type": "application/json"}
 
 
 class Send:
-    def __init__(self, page_access_token):
-        self.URL = 'https://graph.facebook.com/v2.9/{}'
+    def __init__(self, page_access_token, api_ver=None):
+        """
+        Initialize the send class with page_access_token and api_version(optional) so that you can use the obtained
+         instance to send messages of different types
+        :param page_access_token: The page access token for the bot
+        :type page_access_token: str
+        :param api_ver: api version you want to use (Defaults to 2.9)
+        :type api_ver: int,float
+        """
+        if api_ver:
+            assert isinstance(api_ver, (int, float)), "type of api version is not float or integer"
+        else:
+            api_ver = 2.9
+        self.URL = 'https://graph.facebook.com/{}/'.format(api_ver) + '{}'
+
         self.Access_Token = page_access_token
 
     def send_text(self, user_id, message, notification_type='REGULAR', quick_replies=None):

@@ -10,7 +10,6 @@ try:
 except:
     import json
 
-from .exception import ValidationError
 from .message import updates
 
 logger = logging.getLogger(__name__)
@@ -26,15 +25,16 @@ def http(main_func=None, verify_token=None, app_secret_key=None):
                 resp.status = falcon.HTTP_200
                 resp.body = req.get_param('hub.challenge')
             else:
-                resp.status = falcon.HTTP_500
-                raise ValidationError("Failed validation. Make sure the validation tokens match.")
+                resp.status = falcon.HTTP_200
+                resp.body = "Failed validation. Make sure the validation tokens match."
 
         def on_post(self, req, resp):
             resp.status = falcon.HTTP_200
             resp.body = "success"
             signature = req.get_header("X-Hub-Signature")
             data = req.stream.read()
-            verify_result = True  # verification of the callback is optional currently. Therefore if no app secret key is passed then the bot will run anyway
+            verify_result = True  # verification of the callback is optional currently.
+            # Therefore if no app secret key is passed then the bot will run anyway
             if app_secret_key is not None:
                 verify_result = _verify(data, signature, app_secret_key)
             if verify_result:
