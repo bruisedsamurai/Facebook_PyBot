@@ -19,10 +19,16 @@ class Send:
     def __init__(self, page_access_token, api_ver=None):
         """
         Initialize the send class with page_access_token and api_version(optional) so that you can use the obtained
-         instance to send messages of different types
+        instance to send messages of different types
+
+        @required
+
         :param page_access_token: The page access token for the bot
+
+        @optional
+
         :type page_access_token: str
-        :param api_ver: api version you want to use (Defaults to 2.9)
+        :param api_ver: api version you want to use
         :type api_ver: int,float
         """
         if api_ver:

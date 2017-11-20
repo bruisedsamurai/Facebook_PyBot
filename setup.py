@@ -13,7 +13,7 @@ def requirements():
 
 setup(
     name='Facebook_PyBot',
-    version='0.8a11',
+    version='0.8a12',
     author='hundredeir',
     author_email='hundredeir@protonmail.com',
     packages=['Facebook'],
