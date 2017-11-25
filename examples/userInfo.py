@@ -7,10 +7,10 @@ import os
 import Facebook
 
 def main(message):
-	id=message.USER_ID
+	id=message.user_id
 	sent=Facebook.send(PAGE_ACCESS_TOKEN)
-	if message.Message_Received.text is not None:
-		mess=message.Message_Received.text
+	if message.message_received.text is not None:
+		mess=message.message_received.text
 		if mess == "get me":
 			"""
 			get_UserInfo returns the first name,last name,url of the picture,their locale,timezone and gender of person whom id is passed as an arguement
