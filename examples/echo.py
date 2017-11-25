@@ -12,16 +12,16 @@ def main(message):
     """
     This function receives the message as an arguement and echo back the text,image,video or audio
     """
-    id = message.USER_ID
+    id = message.user_id
     sent = Facebook.send(Page_Access_Token)
-    if message.Message_Received.text is not None:
-        mess = message.Message_Received.text
+    if message.message_received.text is not None:
+        mess = message.message_received.text
         sent.sender_action(id)  #Sender action for message read
         sent.sender_action(id, action="typing_on")  #Sender action of type typing on
         sent.send_text(id, mess)    #Sends the text to the user
-    elif message.Message_Received.attachments is not None:
-        type = message.Message_Received.attachments.type
-        url = message.Message_Received.attachments.url
+    elif message.message_received.attachments is not None:
+        type = message.message_received.attachments.type
+        url = message.message_received.attachments.url
         sent.send_attachment(id, type, url)
 
 #The method is below for starting with cherrpy server
