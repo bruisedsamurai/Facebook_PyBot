@@ -1,2 +1,2 @@
-from .Generate import Generate
-from .Send import Send
+from .generate import Generate
+from .send import Send
