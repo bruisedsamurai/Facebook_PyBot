@@ -5,7 +5,7 @@ from .exception import raise_error
 try:
     import ujson as json
 except ImportError:
-    import json
+    import json     # type: ignore
 
 import requests
 import logging
@@ -74,13 +74,14 @@ class Send:
         else:
             return result
 
-    def send_attachment(self, user_id, type, url=None, file=None, notification_type='REGULAR', quick_replies=None):
+    def send_attachment(self, user_id, attachment_type, url=None, file=None, notification_type='REGULAR',
+                        quick_replies=None):
         """
         @required
         
         :param user_id: user_id of the recipient
-        :param type: Type of attachment, may be image, audio, video, file or template
-        :type type: str
+        :param attachment_type: Type of attachment, may be image, audio, video, file or template
+        :type attachment_type: str
         :param url: URL of data
         :param notification_type: Push notification type: REGULAR, SILENT_PUSH, or NO_PUSH
         :type notification_type: string
@@ -95,7 +96,7 @@ class Send:
             },
             "message": {
                 "attachment": {
-                    "type": type,
+                    "type": attachment_type,
                     "payload": {}
                 }
             },

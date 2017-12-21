@@ -7,8 +7,8 @@ import falcon
 
 try:
     import ujson as json
-except:
-    import json
+except ImportError:
+    import json     # type: ignore
 
 from .message import updates
 

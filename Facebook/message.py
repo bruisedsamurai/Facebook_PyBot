@@ -1,13 +1,13 @@
 try:
     import ujson as json
 except ImportError:
-    import json
+    import json     # type: ignore
 
 
 def updates(callback):
     """
-    This function takes the callback as an input and creates an instance for each message received and stores it(instance) into
-    an array. Which is then returned
+    This function takes the callback as an input and creates an instance for each message received and stores
+    it(instance) into an array. Which is then returned
     
     :param callback: contains the callback from facebook.
     :return: array of Message instances.

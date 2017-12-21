@@ -1,12 +1,12 @@
 class Generate:
     @staticmethod
-    def button(type, title="None", url=None, payload=None, webview_height="full"):
+    def button(button_type, title="None", url=None, payload=None, webview_height="full"):
         """
         Creates a payload of button
         For more info https://developers.facebook.com/docs/messenger-platform/send-api-reference/buttons
         
-        :param type: Type of button.
-        :type type: str
+        :param button_type: Type of button.
+        :type button_type: str
         :param title: Button title. 20 character limit.
         :type title: str
         :param url: This URL is opened in a mobile browser when the button is tapped.
@@ -21,19 +21,19 @@ class Generate:
             "type": type,
             "title": title,
         }
-        if type == "web_url":
+        if button_type == "web_url":
             button["url"] = url
             button["webview_height_ratio"] = webview_height
-        elif type == "postback":
+        elif button_type == "postback":
             button["payload"] = payload
-        elif type == "phone_number":
+        elif button_type == "phone_number":
             button["payload"] = payload
-        elif type == "element_share":
+        elif button_type == "element_share":
             button.pop("title")
-        elif type == "account_link":
+        elif button_type == "account_link":
             button["url"] = url
             button.pop("title")
-        elif type == "account_unlink":
+        elif button_type == "account_unlink":
             button.pop("title")
         return button
 
