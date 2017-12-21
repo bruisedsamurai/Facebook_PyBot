@@ -8,5 +8,5 @@ install:
   - mypy
   - ujson
 
-  script:
-    - mypy Facebook --ignore-missing-imports
+script:
+  - mypy Facebook --ignore-missing-imports
