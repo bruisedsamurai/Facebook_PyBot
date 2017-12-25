@@ -8,7 +8,7 @@ import falcon
 try:
     import ujson as json
 except ImportError:
-    import json     # type: ignore
+    import json  # type: ignore
 
 from .message import updates
 
@@ -77,3 +77,38 @@ def _verify(callback, signature, app_secret_key):
     hmac_object = hmac.new(app_secret_key.encode("utf-8"), callback, "sha1")
     key = hmac_object.hexdigest()
     return hmac.compare_digest(sign, key)
+
+
+class HttpApi(object):
+
+    def __init__(self, verify_token, app_secret_key):
+        self.verify_token = verify_token
+        self.app_secret_key = app_secret_key
+
+    def on_get(self, req, resp):
+        if req.get_param("hub.verify_token") == self.verify_token:
+            resp.status = falcon.HTTP_200
+            resp.body = req.get_param('hub.challenge')
+        else:
+            resp.status = falcon.HTTP_200
+            resp.body = "Failed validation. Make sure the validation tokens match."
+
+    def on_post(self, req, resp):
+        resp.status = falcon.HTTP_200
+        resp.body = "success"
+        signature = req.get_header("X-Hub-Signature")
+        data = req.stream.read()
+        verify_result = True  # verification of the callback is optional currently.
+        # Therefore if no app secret key is passed then the bot will run anyway
+        if self.app_secret_key is not None:
+            verify_result = _verify(data, signature, self.app_secret_key)
+        if verify_result:
+            callback = json.loads(data)
+            web = updates(callback)
+            for message in web:  # Sometimes there are more than one number of callbacks.
+                _run(main_func, message)
+
+
+class Webhook(falcon.API):
+    def run(self, *args, **kwargs):
+        ...

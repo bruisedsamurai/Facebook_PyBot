@@ -153,3 +153,21 @@ def raise_error(response_data):
         return OAuthException(message)
     else:
         return Exception(response_data["error"]["message"])
+
+
+class ElementCountExceeded(Error):
+
+    def __init__(self, description):
+        self.description = description
+
+
+class QuickReplyCountExceeded(Error):
+
+    def __init__(self, description):
+        self.description = description
+
+
+class CharacterCountExceeded(Error):
+
+    def __init__(self, description):
+        self.description = description

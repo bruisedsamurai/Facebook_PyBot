@@ -1,11 +1,17 @@
+"""
+This module will send messages to the facebook servers which in turn will send those messages to the user whom's user
+is passed.
+Messages can pe pure text based or be other types like images,videos,location and some special ones from Facebook i.e
+Templates
+"""
 import os
 
-from .exception import raise_error
+from .exception import raise_error, QuickReplyCountExceeded, ElementCountExceeded, CharacterCountExceeded
 
 try:
     import ujson as json
 except ImportError:
-    import json     # type: ignore
+    import json  # type: ignore
 
 import requests
 import logging
@@ -35,7 +41,7 @@ class Send:
             assert isinstance(api_ver, (int, float)), "type of api version is not float or integer"
         else:
             api_ver = 2.9
-        self.URL = 'https://graph.facebook.com/{}/'.format(api_ver) + '{}'
+        self.URL = 'https://graph.facebook.com/v{}/'.format(api_ver) + '{}'
 
         self.Access_Token = page_access_token
 
@@ -64,6 +70,8 @@ class Send:
         payload['recipient'] = {"id": user_id}
         payload['message'] = {"text": message}
         if quick_replies is not None:
+            if len(quick_replies) > 11:
+                raise QuickReplyCountExceeded("The maximum numbers of quick replies allowed are 11")
             payload["message"]["quick_replies"] = quick_replies
         payload["notification_type"] = notification_type
         response = requests.post(url, headers=header, params=params, data=json.dumps(payload))
@@ -106,6 +114,8 @@ class Send:
         else:
             payload["filedata"] = (os.path.basename(file), open(file, 'rb'))
         if quick_replies is not None:
+            if len(quick_replies) > 11:
+                raise QuickReplyCountExceeded("The maximum numbers of quick replies allowed are 11")
             payload["message"]["quick_replies"] = quick_replies
         payload["notification_type"] = notification_type
         params = {"access_token": self.Access_Token}
@@ -181,6 +191,11 @@ class Send:
         :return:
         
         """
+        assert isinstance(text, str), "text argument is not a string"
+        if len(text) > 640:
+            raise CharacterCountExceeded(
+                "The number of characters in the text argument passed are %s. But maximum allowed is up to 640" % len(
+                    text))
         try:
             button_1 = json.loads(button_1)
             button_2 = json.loads(button_2)
@@ -208,6 +223,8 @@ class Send:
             }
         }
         if quick_replies is not None:
+            if len(quick_replies) > 11:
+                raise QuickReplyCountExceeded("The maximum numbers of quick replies allowed are 11")
             payload["message"]["quick_replies"] = quick_replies
         url = self.URL.format("me/messages")
         params = {"access_token": self.Access_Token}
@@ -225,12 +242,15 @@ class Send:
         
         :param user_id: User Id of the recipient to whom the message is being sent.
         :type user_id: str
-        :param elements: a list of elements(up to 10).
+        :param elements: a list of generic templates(up to 10).
         :param quick_replies: a list containing number of quick replies.(Up to 11)
         Element: Data for each bubble in message
         :return:
         
         """
+        assert isinstance(elements, list), "Make sure elements is a list of generic templates"
+        if len(elements) > 10:
+            raise ElementCountExceeded("The max number of templates allowed are 10.But, %s are given" % len(elements))
         payload = {
             "recipient": {
                 "id": user_id
@@ -247,6 +267,9 @@ class Send:
             }
         }
         if quick_replies is not None:
+
+            if len(quick_replies) > 11:
+                raise QuickReplyCountExceeded("The maximum numbers of quick replies allowed are 11")
             payload["message"]["quick_replies"] = quick_replies
         url = self.URL.format("me/messages")
         params = {"access_token": self.Access_Token}
@@ -287,6 +310,8 @@ class Send:
             }
         }
         if quick_replies is not None:
+            if len(quick_replies) > 11:
+                raise QuickReplyCountExceeded("The maximum numbers of quick replies allowed are 11")
             payload["message"]["quick_replies"] = quick_replies
         url = self.URL.format("me/messages")
         params = {"access_token": self.Access_Token}

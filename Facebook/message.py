@@ -1,7 +1,7 @@
 try:
     import ujson as json
 except ImportError:
-    import json     # type: ignore
+    import json  # type: ignore
 
 
 def updates(callback):

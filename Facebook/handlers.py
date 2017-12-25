@@ -58,7 +58,7 @@ def text_handler(text=None, position=None):
                         elif position == (Position.IS or "is") and text == msg:
                             match = True
                         if match:
-                            return func(message, text, position)
+                            return func(message)
                 else:
                     return func(message)
 

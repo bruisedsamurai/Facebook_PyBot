@@ -1,11 +1,14 @@
 language: python
-
 python:
-  - "3.6"
-
+- '3.6'
 install:
-  - pip install -r requirements.txt
-  - pip install mypy
-
+- pip install -r requirements.txt
+- pip install mypy ujson
 script:
-  - mypy Facebook --ignore-missing-imports
+- mypy Facebook --ignore-missing-imports
+deploy:
+  provider: pypi
+  user:
+    secure: jrxRYArIsBHZFs9qHdwGs428W269aDQi42oa4W7ppo3zKLuFGRAEvfuZDOK2fxiwVUuR8mgY88HY2dnc3zUGNSG9jraKjUCJzU3bFNBntBfq+ft9FbCWSqensuhO8zPl8U0nYxVU/H7fDImcgDbZDQTk/ow1DT29FAUMMOhlmBDHh7Ao/+X6VpQJ4c6TfGRpUTTIKRhkfEGwRxQocWjVhNNscRFrB76kMbpXz4X9Z9MPyUU2PxOwZ08nj/+njKKqH+wWAgVoH6Ktmi45EJgamtY6PrN2SJfna1FENpiO42bfy9U+4CrCjAP4xpyZrnsrcODpiIdmnL//6Y2ZfQffAs5T6jHYKsk0NFVZTMbe1lsujyg9/gJx0NcPMruR2wSFx4k5H2Xh98/xuAMZa7TiT+mzphKJJwXsOIp+/WMQg0Xark+weGUQu371e72BmXem4uuI2+Z9iVjh4bcluYCcmuXJL1aKU853VOZ2WXG5q506yQmCI3UAyane/OhyCIA5TtOn0Xh37i4tQv/D1FLcSQYyrelWRx7TcP3gZe6fei0U7Dyx9Hx3RHUN/edNNBQKgMo7agcvTsTL3MgvPvGCxoflGtcOVeE5iqpLRx2MlL5RZe+hMSvfb7TboZSUFFezDUcsB+9Izp+29zp/eJuZ5nMS8daEEknAOmDGh+KvaNw=
+  password:
+    secure: KWLbma3auyApVREjtEt8zt6oMPxgoxfSzfX+Z5X+303bg3wbxspV1EpSR498Bw76LOHXfkSF3js2ZLR7vFZodX6OUIRnlwQlUTmx7kiZABvi6k0whIhR26DX8mzaW0fBul8nfc63pMh8sYtDyo1lDzsyQ89j04Rsnxbwj9GZz1lDlSUpzeootgQCFUjwJCDvX9Mmre194skrPzPNAGQUiUWZ398XkRwuuV3KXGjRnzTiVTovI3io0vkJAIOBjZoyeOAGNiGvrAN290R7gc/N7KQd8NwGpNbZ3/zhqw6ONMPLW/21allWOslOlfAxLd5Ht9yaP4f9g2DyeXZHa8mPJH3kqpRmb44eCVLY07HffcTlB4gMoctsXFnT31tGmY06bqPzGNRg01aKQIlBmYPtRLQ5OjQ9q9Q77ZhNcjBzPbknesIXeCvZhCsNC3e57JIXD7grdZdppA+hUpqa4PKTH726d4EbJu+ptpJ8CNJRtsWIqWPfZFxerOb2PGtyPjThQvc5YxJi10sxRRD725ljwy03LNcwd9KJFYvUxXBwcTLBiiFc6qZ4OuIKcRGonMLVfMkgD8dOaNPgeX3qJYvdMsQTdsPHxg4YaG0/UDkyVizS9sbrnZ8OgGxsoTcAAxwdLJB0O8ptfTLud/PFWGDYS9IHL1ME8ismq0p8wNrgVYQ=

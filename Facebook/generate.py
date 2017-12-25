@@ -1,22 +1,27 @@
+from .exception import CharacterCountExceeded
+
+
 class Generate:
     @staticmethod
     def button(button_type, title="None", url=None, payload=None, webview_height="full"):
         """
-        Creates a payload of button
+        Creates a button and returns the dictionary containing the button data
         For more info https://developers.facebook.com/docs/messenger-platform/send-api-reference/buttons
-        
-        :param button_type: Type of button.
-        :type button_type: str
-        :param title: Button title. 20 character limit.
-        :type title: str
-        :param url: This URL is opened in a mobile browser when the button is tapped.
-        :type url: str
-        :param payload: This data will be sent back to your webhook. 1000 character limit.
-        :param webview_height: Height of the Webview. Valid values: compact, tall, full.
-        :type webview_height: enumerate
-        :return: dict of button.
-        
+        Args:
+            button_type: Type of button.
+            title: Title of the button. Max 20 characters
+            url: This URL is opened in a mobile browser when the button is tapped
+            payload: This data will be sent back to your webhook. 1000 character limit
+            webview_height: Height of the Webview. Valid values: compact,tall,full.
+
+        Returns:
+            A dictionary containing mapping between proper keys and arguments
+
+
         """
+        if len(payload) > 1000:
+            raise CharacterCountExceeded("Max number of characters allowed are 1000."
+                                         "The number of characters in the 'payload' are %s. " % len(payload))
         button = {
             "type": type,
             "title": title,
