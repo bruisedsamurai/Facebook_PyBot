@@ -1,4 +1,4 @@
-from typing import Dict, List, Optional, Any, Union
+from typing import Dict, List, Optional, Any, Union, cast
 
 
 class Send:
@@ -15,7 +15,7 @@ class Send:
 
         result: Dict[str, Any] = ...
 
-        return ...
+        return cast(Optional[Dict[str, Any]], result)
 
     def send_attachment(self, user_id: Union[str, int], attachment_type: str, url: str, file,
                         notification_type: str = 'REGULAR',

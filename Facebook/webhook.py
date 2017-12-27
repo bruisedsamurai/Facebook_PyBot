@@ -11,6 +11,7 @@ except ImportError:
     import json  # type: ignore
 
 from .message import updates
+from .handlers import text_handler, attachment_handler
 
 logger = logging.getLogger(__name__)
 
@@ -40,12 +41,27 @@ def http(main_func=None, verify_token=None, app_secret_key=None):
             if verify_result:
                 callback = json.loads(data)
                 web = updates(callback)
+                is_call = _check_callable_list(main_func)
                 for message in web:  # Sometimes there are more than one number of callbacks.
-                    _run(main_func, message)
+                    if not is_call:
+                        _run(main_func, message)
+                    else:
+                        for each_callable in main_func:
+                            _run(each_callable, message)
 
     api = HttpApi()
     app.add_route('/', api)
     return app
+
+
+def _check_callable_list(func):
+    if callable(func):
+        return False
+    elif isinstance(func, list):
+        for each_index in func:
+            if not callable(each_index):
+                return False
+        return True
 
 
 def _run(func, message):
@@ -79,9 +95,12 @@ def _verify(callback, signature, app_secret_key):
     return hmac.compare_digest(sign, key)
 
 
-class HttpApi(object):
+class HttpApi:
 
     def __init__(self, verify_token, app_secret_key):
+        self.text_handlers = []
+        self.attachment_handlers = []
+        self.postback_handlers = []
         self.verify_token = verify_token
         self.app_secret_key = app_secret_key
 
@@ -106,9 +125,27 @@ class HttpApi(object):
             callback = json.loads(data)
             web = updates(callback)
             for message in web:  # Sometimes there are more than one number of callbacks.
-                _run(main_func, message)
+                self.dispatch_handlers(message)
 
+    def add_text_handler(self, func, text=None, position=None):
+        _handler = text_handler(text, position)
+        self.text_handlers.append(_handler())
 
-class Webhook(falcon.API):
-    def run(self, *args, **kwargs):
-        ...
+    def add_attachment_handler(self, func, attachment_type=None):
+        self.attachment_handlers.append((attachment_handler(func), attachment_type))
+
+    def add_postback_handler(self, func):
+        self.postback_handlers.append(func)
+
+    def dispatch_handlers(self, message):
+        for each_handler in self.text_handlers:
+            each_handler(message)
+        for each_attach_handler, attach_type in self.attachment_handlers:
+            each_attach_handler(message, attach_type)
+        for each_post_handler in self.postback_handlers:
+            each_post_handler(message)
+
+    def get_webhook_app(self):
+        app = falcon.API()
+        app.add_route("/", self)
+        return app

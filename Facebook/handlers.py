@@ -43,22 +43,25 @@ def text_handler(text=None, position=None):
             if message.message_received.text:
                 msg = message.message_received.text
                 if text:
+                    match = False
                     logger.error(text)
                     esc_text = re.escape(text)
-                    if position in positions:
-                        match = None
-                        if position == (Position.START or "start"):
-                            regex = r'^' + esc_text
-                            match = re.search(regex, msg)
-                        elif position == (Position.END or "end"):
-                            regex = esc_text + r'$'
-                            match = re.search(regex, msg)
-                        elif position == (Position.CONTAINS or "contains"):
-                            match = re.search(esc_text, msg)
-                        elif position == (Position.IS or "is") and text == msg:
-                            match = True
-                        if match:
-                            return func(message)
+                    if position:
+                        if position in positions:
+                            if position == (Position.START or "start"):
+                                regex = r'^' + esc_text
+                                match = re.search(regex, msg)
+                            elif position == (Position.END or "end"):
+                                regex = esc_text + r'$'
+                                match = re.search(regex, msg)
+                            elif position == (Position.CONTAINS or "contains"):
+                                match = re.search(esc_text, msg)
+                            elif position == (Position.IS or "is") and text == msg:
+                                match = True
+                    else:
+                        match = re.search(esc_text, msg)
+                    if match:
+                        return func(message)
                 else:
                     return func(message)
 
