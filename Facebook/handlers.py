@@ -21,11 +21,12 @@ def text_handler(text=None, position=None):
 
     @optional
 
-    :param text: text to be searched in the facebook text message
+    :param text: text to be searched in the facebook text message.
     :type text: str
-    :param position: position of the text in the message
+    :param position: position of the text in the message.
     :type position: enumerate,str
-    :return: text_handle
+    :return: text_handle.
+    :rtype: callable
     """
 
     def text_handle(func):

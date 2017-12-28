@@ -29,9 +29,16 @@ class Message:
 
     def __init__(self, data):
         """
-         
+
         :param data: Message containing callback from facebook i.e. sender_id,recipient_id,message etc.
         :type data: Dict
+
+        Attributes:
+            user_id: user id of the facebook user.
+            page_id: page id of the recipient bot.
+            message_received(:class:`Received`): instance of Received class.
+            message_delivered(:class:`Delivered`):
+            message_read(:class:`Read`):
         
         """
         self.user_id = str(data['sender']['id'])
@@ -57,11 +64,13 @@ class Received:
     This class stores the text or attachment sent by facebook in the callback.
     
     Attributes:
-        :param self.mid:     Message id of the message received. Be it either text or attachment
-        :param self.text:    stores the text of the message if received(otherwise none)
-        :param self.attachment: instance of the attachment class
-        :param quick_reply_payload: The data received in the callback. It is received when quick replies are tapped and it's content depends on the postback data sent in developer payload.
-        :param postback_payload: The postback data received in the callback
+        mid: Message id of the message received. Be it either text or attachment.
+        text(str): Optional.stores the text of the message if received(otherwise none).
+        attachments(:class:`Attachments`): Optional.instance of the attachment class.
+        quick_reply_payload: Optional.The data received in the callback. It is received when quick replies are tapped and it's
+          content depends on the postback data sent in developer payload.
+        postback_payload: Optional.The postback data received in the callback
+
     
     For more info go to https://developers.facebook.com/docs/messenger-platform/webhook-reference/message
     """
@@ -142,6 +151,7 @@ class Echo:
     Message Echo callback
 
     For more info go to https://developers.facebook.com/docs/messenger-platform/webhook-reference/message-echo
+
     """
 
     def __init__(self, messaging):
@@ -163,11 +173,11 @@ class Attachments:
     """
     This class contains the type of the attachments and their payload
 
-
-    : type: The type of attachment. Will be one of many type : location, image,video,audio or file
-    :param url: URL of the image,video,audio or file
-    :param coordinates_lat: latitude of the coordinate of the location received
-    :param self.coordinates_long: longitude of the coordinate of the location
+    Attributes:
+        type(str): The type of attachment. Will be one of many type : location, image,video,audio or file.
+        url(str): Optional.URL of the image,video,audio or file.
+        coordinates_lat(int): Optional.latitude of the coordinate of the location received.
+        coordinates_long(int): Optional.longitude of the coordinate of the location.
 
     """
 

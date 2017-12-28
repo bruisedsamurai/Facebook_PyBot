@@ -1,4 +1,4 @@
-.. automodule:: Facebook.Send
+.. automodule:: Facebook.send
 	:members:
 	:undoc-members:
 	:inherited-members:

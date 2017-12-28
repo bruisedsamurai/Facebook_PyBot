@@ -6,16 +6,23 @@ class Generate:
     def button(button_type, title="None", url=None, payload=None, webview_height="full"):
         """
         Creates a button and returns the dictionary containing the button data
-        For more info https://developers.facebook.com/docs/messenger-platform/send-api-reference/buttons
-        Args:
-            button_type: Type of button.
-            title: Title of the button. Max 20 characters
-            url: This URL is opened in a mobile browser when the button is tapped
-            payload: This data will be sent back to your webhook. 1000 character limit
-            webview_height: Height of the Webview. Valid values: compact,tall,full.
 
-        Returns:
-            A dictionary containing mapping between proper keys and arguments
+        .. seealso:https://developers.facebook.com/docs/messenger-platform/send-api-reference/buttons
+        For more info https://developers.facebook.com/docs/messenger-platform/send-api-reference/buttons
+
+        :arg button_type: Type of button.
+        :type button_type: str
+        :arg title: Title of the button. Max 20 characters.
+        :type title: str
+        :arg url: This URL is opened in a mobile browser when the button is tapped.
+        :type url: str
+        :arg payload: This data will be sent back to your webhook. 1000 character limit.
+        :type payload: str
+        :arg webview_height: Height of the Webview. Valid values: compact,tall,full.
+        :type webview_height: str
+
+        :returns: A dictionary containing mapping between proper keys and arguments.
+        :rtype: dict
 
 
         """
@@ -55,7 +62,9 @@ class Generate:
         :type image_url: str
         :param buttons: Set of buttons that appear as call-to-actions.
         :type buttons: list
-        :return: dict of element.
+
+        :return: A dictionary containing mapping between proper keys and arguments.
+        :rtype: dict
         
         """
         element = {
@@ -85,7 +94,9 @@ class Generate:
         :type payload: str
         :param image_url: URL of image for text quick replies
         :type image_url: str
+
         :return: dict containing quick_reply
+        :rtype: dict
         
         """
         quick_reply = {

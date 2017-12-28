@@ -17,6 +17,17 @@ logger = logging.getLogger(__name__)
 
 
 def http(main_func=None, verify_token=None, app_secret_key=None):
+    """
+    Setups an interface for receiving requests from Facebook. It will handle the verification of webhook and also
+    all requests send by Facebook
+
+    :param main_func: one or a list of callable which should be called whenever a callback is received from Facebook.
+    :param verify_token: verification token used to verify the webhook initially.
+    :type verify_token: str
+    :param app_secret_key: this key will be used to verify if every request received is authentic.
+    :type app_secret_key: str
+    :return: an wsgi app.
+    """
     app = falcon.API()
 
     class HttpApi(object):
@@ -104,7 +115,7 @@ class HttpApi:
         self.verify_token = verify_token
         self.app_secret_key = app_secret_key
 
-    def on_get(self, req, resp):
+    def _on_get(self, req, resp):
         if req.get_param("hub.verify_token") == self.verify_token:
             resp.status = falcon.HTTP_200
             resp.body = req.get_param('hub.challenge')
@@ -112,7 +123,7 @@ class HttpApi:
             resp.status = falcon.HTTP_200
             resp.body = "Failed validation. Make sure the validation tokens match."
 
-    def on_post(self, req, resp):
+    def _on_post(self, req, resp):
         resp.status = falcon.HTTP_200
         resp.body = "success"
         signature = req.get_header("X-Hub-Signature")
@@ -147,5 +158,7 @@ class HttpApi:
 
     def get_webhook_app(self):
         app = falcon.API()
+        self.on_get = self._on_get
+        self.on_post = self._on_post
         app.add_route("/", self)
         return app
