@@ -56,6 +56,10 @@ class Message:
         self.message_delivered = Delivered(data)
         self.message_read = Read(data)
 
+    def __repr__(self):
+        return "Message(%r,%r)" % (
+            self.user_id, self.page_id)  # TODO: add which type of callback is received like received or deleivered.
+
 
 class Received:
     """
@@ -102,6 +106,10 @@ class Received:
             self.postback = messaging["postback"]
             self.postback_payload = self.postback.get("payload")
             self.referral = self.postback.get("referral")
+
+    def __repr__(self):
+        msg_type = "text" if self.text else self.attachments.type
+        return "Received(%r,%r)" % (self.mid, msg_type)
 
 
 class Delivered:

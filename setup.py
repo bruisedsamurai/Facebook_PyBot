@@ -13,13 +13,13 @@ def requirements():
 
 setup(
     name='Facebook_PyBot',
-    version='0.8b4',
+    version='0.8b5',
     author='hundredeir',
     author_email='hundredeir@protonmail.com',
     packages=['Facebook'],
     scripts=['examples/echo.py','examples/userInfo.py'],
     url='https://github.com/hundredeir/Facebook_PyBot',
-    license='GPL3',
+    license='LGPL3',
     description='This is an Unofficial Facebook bot API in python. Facebook Bots can be build using this library.',
     long_description=open('readme.md').read(),
     install_requires=requirements(),

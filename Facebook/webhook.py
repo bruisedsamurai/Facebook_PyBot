@@ -52,9 +52,9 @@ def http(main_func=None, verify_token=None, app_secret_key=None):
             if verify_result:
                 callback = json.loads(data)
                 web = updates(callback)
-                is_call = _check_callable_list(main_func)
+                is_call_list = _check_callable_list(main_func)
                 for message in web:  # Sometimes there are more than one number of callbacks.
-                    if not is_call:
+                    if not is_call_list:
                         _run(main_func, message)
                     else:
                         for each_callable in main_func:
@@ -114,6 +114,7 @@ class HttpApi:
         self.postback_handlers = []
         self.verify_token = verify_token
         self.app_secret_key = app_secret_key
+        self.app = self._get_webhook_app()
 
     def _on_get(self, req, resp):
         if req.get_param("hub.verify_token") == self.verify_token:
@@ -136,11 +137,11 @@ class HttpApi:
             callback = json.loads(data)
             web = updates(callback)
             for message in web:  # Sometimes there are more than one number of callbacks.
-                self.dispatch_handlers(message)
+                self._dispatch_handlers(message)
 
     def add_text_handler(self, func, text=None, position=None):
         _handler = text_handler(text, position)
-        self.text_handlers.append(_handler())
+        self.text_handlers.append(_handler(func))
 
     def add_attachment_handler(self, func, attachment_type=None):
         self.attachment_handlers.append((attachment_handler(func), attachment_type))
@@ -148,7 +149,7 @@ class HttpApi:
     def add_postback_handler(self, func):
         self.postback_handlers.append(func)
 
-    def dispatch_handlers(self, message):
+    def _dispatch_handlers(self, message):
         for each_handler in self.text_handlers:
             each_handler(message)
         for each_attach_handler, attach_type in self.attachment_handlers:
@@ -156,7 +157,7 @@ class HttpApi:
         for each_post_handler in self.postback_handlers:
             each_post_handler(message)
 
-    def get_webhook_app(self):
+    def _get_webhook_app(self):
         app = falcon.API()
         self.on_get = self._on_get
         self.on_post = self._on_post
