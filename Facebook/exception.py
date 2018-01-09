@@ -171,3 +171,8 @@ class CharacterCountExceeded(Error):
 
     def __init__(self, description):
         self.description = description
+
+
+class ButtonCountExceeded(Error):
+    def __init__(self, description):
+        self.description = description

@@ -7,7 +7,7 @@ class Generate:
         """
         Creates a button and returns the dictionary containing the button data
 
-        .. seealso:https://developers.facebook.com/docs/messenger-platform/send-api-reference/buttons
+        .. see also:https://developers.facebook.com/docs/messenger-platform/send-api-reference/buttons
         For more info https://developers.facebook.com/docs/messenger-platform/send-api-reference/buttons
 
         :arg button_type: Type of button.

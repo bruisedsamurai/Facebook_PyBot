@@ -6,7 +6,8 @@ Templates
 """
 import os
 
-from .exception import raise_error, QuickReplyCountExceeded, ElementCountExceeded, CharacterCountExceeded
+from .exception import raise_error, QuickReplyCountExceeded, ElementCountExceeded, CharacterCountExceeded, \
+    ButtonCountExceeded
 
 try:
     import ujson as json
@@ -47,10 +48,6 @@ class Send:
 
     def send_text(self, user_id, message, notification_type='REGULAR', quick_replies=None):
         """
-        @optional
-        
-        sender_action
-        
         @required
         
         :param user_id: user_id of the recipient
@@ -180,13 +177,15 @@ class Send:
         except:
             return None
 
-    def send_button_template(self, user_id, text, button_1, button_2=None, button_3=None, quick_replies=None):
+    def send_button_template(self, user_id, text, buttons, quick_replies=None):
         """
         https://developers.facebook.com/docs/messenger-platform/send-api-reference/button-template
         
         :param user_id: User Id of the recipient to whom the message is being sent.
         :param text: UTF-8 encoded text of up to 640 characters that appears the in main body.
-        :param button_1,button_2,button_3: Set of, one to three, buttons that appear as call-to-actions.
+        :type text: str
+        :param buttons: Set of, one to three, buttons that appear as call-to-actions.
+        :type buttons: Dict | list[dict]
         :param quick_replies: a list containing number of quick replies.(Up to 11)
         :return:
         
@@ -194,19 +193,23 @@ class Send:
         assert isinstance(text, str), "text argument is not a string"
         if len(text) > 640:
             raise CharacterCountExceeded(
-                "The number of characters in the text argument passed are %s. But maximum allowed is up to 640" % len(
+                "The number of characters in the text argument passed are %r. But maximum allowed is up to 640" % len(
                     text))
-        try:
-            button_1 = json.loads(button_1)
-            button_2 = json.loads(button_2)
-            button_3 = json.loads(button_3)
-        except:
-            pass
-        buttons = [button_1]
-        if button_2 is not None:
-            buttons.append(button_2)
-        if button_3 is not None:
-            buttons.append(button_3)
+        if isinstance(buttons, list):
+            if len(buttons) > 3:
+                raise ButtonCountExceeded("Max numbers of buttons allowed are 3.number of buttons pass %r ") % len(
+                    buttons)
+            for index, each_button in enumerate(buttons):
+                assert isinstance(each_button, dict), "expected dict,passed %s" % type(each_button)
+                try:
+                    each_button = json.loads(each_button)
+                except:
+                    pass
+                finally:
+                    buttons[index] = each_button
+        elif isinstance(buttons, dict):
+            buttons = list(buttons)
+
         payload = {
             "recipient": {
                 "id": user_id
@@ -226,8 +229,8 @@ class Send:
             if len(quick_replies) > 11:
                 raise QuickReplyCountExceeded("The maximum numbers of quick replies allowed are 11")
             payload["message"]["quick_replies"] = quick_replies
-        url = self.URL.format("me/messages")
-        params = {"access_token": self.Access_Token}
+        url = self.URL.format("me/messages")  # type: str
+        params = {"access_token": self.Access_Token}  # type: dict
         response = requests.post(url, headers=headers, params=params, data=json.dumps(payload))
         data = response.json()
         if not data.get("recipient_id"):
