@@ -88,10 +88,15 @@ class Send:
         :param attachment_type: Type of attachment, may be image, audio, video, file or template
         :type attachment_type: str
         :param url: URL of data
-        :param notification_type: Push notification type: REGULAR, SILENT_PUSH, or NO_PUSH
+        :param file: path of attachment in the directory
+        :type file: str
+
+        @optional
+
+        :param notification_type: Push notification type: REGULAR, SILENT_PUSH, or NO_PUSH.
         :type notification_type: string
-        :param quick_replies: a list containing number of quick replies.(Up to 11)
-        :return: response from facebook or type of error if encountered
+        :param quick_replies: a list containing number of quick replies.(Up to 11).
+        :return: response from facebook or type of error if encountered.
         
         """
 
@@ -108,8 +113,10 @@ class Send:
         }
         if url is not None:
             payload["message"]["attachment"]["payload"]["url"] = url
-        else:
+        elif file is not None:
             payload["filedata"] = (os.path.basename(file), open(file, 'rb'))
+        else:
+            raise Exception("Please pass argument for 'url' or 'file'")
         if quick_replies is not None:
             if len(quick_replies) > 11:
                 raise QuickReplyCountExceeded("The maximum numbers of quick replies allowed are 11")
@@ -208,7 +215,7 @@ class Send:
                 finally:
                     buttons[index] = each_button
         elif isinstance(buttons, dict):
-            buttons = list(buttons)
+            buttons = [buttons]
 
         payload = {
             "recipient": {

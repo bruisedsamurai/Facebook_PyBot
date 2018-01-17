@@ -77,7 +77,7 @@ def _check_callable_list(func):
 
 def _run(func, message):
     try:
-        thread = Thread(target=func(message))
+        thread = Thread(target=func, args=(message,))
         thread.daemon = True
         thread.run()
     except:

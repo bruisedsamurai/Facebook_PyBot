@@ -18,7 +18,7 @@ class Send:
 
         return cast(Optional[Dict[str, Any]], result)
 
-    def send_attachment(self, user_id: Union[str, int], attachment_type: str, url: str, file,
+    def send_attachment(self, user_id: Union[str, int], attachment_type: str, url: str = None, file=None,
                         notification_type: str = 'REGULAR',
                         quick_replies: Dict[str, Any] = None) -> Optional[Dict[str, Any]]:
         ...
