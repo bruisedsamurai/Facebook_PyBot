@@ -41,7 +41,7 @@ def text_handler(text=None, position=None):
             logger = logging.getLogger("handlers.text_handler.text_handle.handler")
             logger.setLevel(logging.INFO)
             positions = {Position.START, Position.CONTAINS, Position.END, Position.IS, "start", "is", "contains", "end"}
-            if message.message_received.text:
+            if message.message_received.text is not None:
                 msg = message.message_received.text
                 if text:
                     match = False
@@ -74,7 +74,7 @@ def text_handler(text=None, position=None):
 def attachment_handler(func):
     @wraps(func)
     def handler(message, attachment_type=None):
-        if message.message_received.attachments:
+        if message.message_received.attachments is not None:
             if attachment_type:
                 if message.message_received.attachments.type == attachment_type:
                     return func(message, attachment_type)
@@ -87,7 +87,7 @@ def attachment_handler(func):
 def postback_handler(func):
     @wraps(func)
     def handler(message):
-        if message.message_received.postback:
+        if message.message_received.postback is not None:
             return func(message)
 
     return handler
