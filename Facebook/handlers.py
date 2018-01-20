@@ -43,11 +43,11 @@ def text_handler(text=None, position=None):
             positions = {Position.START, Position.CONTAINS, Position.END, Position.IS, "start", "is", "contains", "end"}
             if message.message_received.text is not None:
                 msg = message.message_received.text
-                if text:
+                if text is not None:
                     match = False
                     logger.error(text)
                     esc_text = re.escape(text)
-                    if position:
+                    if position is not None:
                         if position in positions:
                             if position == (Position.START or "start"):
                                 regex = r'^' + esc_text
@@ -75,7 +75,7 @@ def attachment_handler(func):
     @wraps(func)
     def handler(message, attachment_type=None):
         if message.message_received.attachments is not None:
-            if attachment_type:
+            if attachment_type is not None:
                 if message.message_received.attachments.type == attachment_type:
                     return func(message, attachment_type)
             else:
